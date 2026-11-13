@@ -22,7 +22,7 @@ public class ConexionDB {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
-            System.out.println("No se encontró el driver JDBC en las librerías del proyecto.");
+            System.out.println("No hay driver");
         }
         return DriverManager.getConnection(URL, USER, PASSWORD);
         
