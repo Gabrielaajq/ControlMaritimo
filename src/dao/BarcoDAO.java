@@ -166,7 +166,7 @@ public class BarcoDAO {
             return;
         }
         System.out.println("\n Barcos de Pasajeros registrados: \n");
-        for (BarcoPasajero bPs : barcosPasajeros){
+        for (BarcoPasajero bPj : barcosPasajeros){
             System.out.println(String.format("""
                                          DATOS DEL BARCO
                                          Matricula: %s
@@ -180,14 +180,14 @@ public class BarcoDAO {
                                          
                                          --------------------------------
                                          """,
-                bPs.getMatricula(),
-                bPs.getBandera(),
-                bPs.getNombre(),
-                bPs.getPesoTonelada(),
-                bPs.getFechaBotadura(),
-                bPs.getNumPasajeros(),
-                bPs.getNumPisos(),
-                bPs.getTipoViaje()));
+                bPj.getMatricula(),
+                bPj.getBandera(),
+                bPj.getNombre(),
+                bPj.getPesoTonelada(),
+                bPj.getFechaBotadura(),
+                bPj.getNumPasajeros(),
+                bPj.getNumPisos(),
+                bPj.getTipoViaje()));
         }
         System.out.println("...");
     }
@@ -247,16 +247,16 @@ public class BarcoDAO {
     }
     
     public BarcoPasajero buscarBarcoPasajeros(String matricula){
-        BarcoPasajero  bP= null;
+        BarcoPasajero  bPj = null;
         if(matricula == null || matricula.isEmpty()){
             return null;
         }
-        for(BarcoPasajero bPs : barcosPasajeros){
-            if(b.getNombre().compareToIgnoreCase(nombre)== 0){
-                c = b;
+        for(BarcoPasajero bPjs : barcosPasajeros){
+            if(bPjs.getMatricula().compareToIgnoreCase(matricula)== 0){
+                bPj = bPjs;
                 break;
             }
         }
-        return c;
+        return bPj;
     }
 }
