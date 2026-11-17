@@ -56,5 +56,4 @@ public class BarcoPasajero extends Barco{
     public Double capacidadCarga(){
         return null;
     }
-    
 }

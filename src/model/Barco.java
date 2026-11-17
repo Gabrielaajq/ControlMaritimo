@@ -58,7 +58,8 @@ public abstract class Barco {
         this.fechaBotadura = fechaBotadura;
     }
 
-    public Barco(String nombre, String matricula, String bandera, Double pesoTonelada, LocalDate fechaBotadura) {
+    public Barco(String nombre, String matricula, String bandera, 
+                 Double pesoTonelada, LocalDate fechaBotadura) {
         this.nombre = nombre;
         this.matricula = matricula;
         this.bandera = bandera;
