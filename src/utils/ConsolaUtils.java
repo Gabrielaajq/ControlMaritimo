@@ -13,22 +13,22 @@ import java.util.Scanner;
 
 
 public final class ConsolaUtils {
-    private static final Scanner scaner= new Scanner (System.in);
+    private static final Scanner leer = new Scanner (System.in);
     
-    private static final DateTimeFormatter FORMATO_FECHA= 
-            DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter FORMATO_FECHA = 
+            DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT); 
     
     private static final DateTimeFormatter FORMATO_FECHA_HORA=
-            DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm").withResolverStyle(ResolverStyle.STRICT);
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").withResolverStyle(ResolverStyle.STRICT); 
     
     private ConsolaUtils (){
-        
+    
     }
     
     public static int leerEntero (String mensaje){
         while(true){
             System.out.println(mensaje);
-            String entrada= scaner.nextLine().trim();
+            String entrada= leer.nextLine().trim();
             try{
                 return Integer.parseInt(entrada);
             } catch (NumberFormatException e){
@@ -52,16 +52,16 @@ public final class ConsolaUtils {
     public static double leerDecimal(String mensaje){
         while(true){
             System.out.println(mensaje);
-            String entrada= scaner.nextLine().trim().replace(',', '.');
+            String entrada= leer.nextLine().trim().replace(',', '.');
             if(!entrada.matches("-?\\d+(\\.\\d+)?")){
-                System.out.println("Escribe un numero decimal vaido ");
+                System.out.println("Escribe un número decimal valido ");
                 continue;
             }
             try{
                 return Double.parseDouble(entrada);
              
             }catch (NumberFormatException e){
-                System.out.println("Escribe un numero decimal valido");
+                System.out.println("Escribe un número decimal valido");
             }
         }
     }
@@ -73,18 +73,15 @@ public final class ConsolaUtils {
                 return valor; 
                 
             }
-            System.out.println(" El numero debe estar entre "+ minimo +" y "+ maximo);
+            System.out.println(" El número debe estar entre "+ minimo +" y "+ maximo);
         }
     }
     
-    public static String leerTexto(String mensaje) {
-        return leerTexto(mensaje, Integer.MAX_VALUE);
-    }
     
     public static String leerTexto(String mensaje, int maxLongitud) {
         while (true) {
             System.out.println(mensaje);
-            String entrada = scaner.nextLine().trim();
+            String entrada = leer.nextLine().trim();
             if (entrada.isEmpty()) {
                 System.out.println("Ingrese un valor");
             } else if (entrada.length() > maxLongitud) {
@@ -97,8 +94,8 @@ public final class ConsolaUtils {
     
     public static LocalDate leerFecha (String mensaje){
         while(true){
-            System.out.println(mensaje + "(dd/MM/uuuu): ");
-            String entrada= scaner.nextLine().trim();
+            System.out.println(mensaje + "(dd/MM/yyyy): ");
+            String entrada= leer.nextLine().trim();
             try{
                 return LocalDate.parse (entrada, FORMATO_FECHA);
             }catch (DateTimeParseException e){
@@ -109,8 +106,8 @@ public final class ConsolaUtils {
     
     public static LocalDateTime leerFechaHora (String mensaje){
         while (true){
-            System.out.println(mensaje+ " (dd/MM/uuuu HH:mm): ");
-            String entrada = scaner.nextLine().trim();
+            System.out.println(mensaje+ " (dd/MM/yyyy HH:mm): ");
+            String entrada = leer.nextLine().trim();
             try{
                 return LocalDateTime.parse(entrada, FORMATO_FECHA_HORA);
                 
