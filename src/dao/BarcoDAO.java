@@ -251,12 +251,26 @@ public class BarcoDAO {
         if(matricula == null || matricula.isEmpty()){
             return null;
         }
-        for(BarcoPasajero bPjs : barcosPasajeros){
-            if(bPjs.getMatricula().compareToIgnoreCase(matricula)== 0){
-                bPj = bPjs;
+        for(BarcoPasajero bsPj : barcosPasajeros){
+            if(bsPj.getMatricula().compareToIgnoreCase(matricula)== 0){
+                bPj = bsPj;
                 break;
             }
         }
         return bPj;
+    }
+    
+    public BarcoPesca buscarBarcoPesca(String matricula){
+        BarcoPesca  bPc = null;
+        if(matricula == null || matricula.isEmpty()){
+            return null;
+        }
+        for(BarcoPesca bsPc : barcosPesca){
+            if(bsPc.getMatricula().compareToIgnoreCase(matricula)== 0){
+                bPc = bsPc;
+                break;
+            }
+        }
+        return bPc;
     }
 }
