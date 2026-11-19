@@ -1,10 +1,13 @@
 package controlmaritimo;
 
+import controller.PuertoController;
+
 
 public class ControlMaritimo {
 
     public static void main(String[] args) {
-        // TODO code application logic here
+        PuertoController prueba = new PuertoController();
+        prueba.iniciarMenu();
     }        
 }
 

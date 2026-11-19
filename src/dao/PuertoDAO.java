@@ -42,7 +42,7 @@ public class PuertoDAO implements CrudDAO<Puerto, String> {
     }
 
     @Override
-    public List<Puerto> consultar() {
+    public List<Puerto> consultarTodos() {
         
         List<Puerto> listaPuertos = new ArrayList<>();
         String sql = "SELECT codigoPuerto, nombre, ciudad, pais, numBarcos FROM Puerto";
