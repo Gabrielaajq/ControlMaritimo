@@ -15,7 +15,8 @@ public class Zona {
     private Double longitud;
     private Double radio;
 
-    public Zona(String claveZona, Double latitud, Double longitud, Double radio) {
+    public Zona(String claveZona, Double latitud, 
+                Double longitud, Double radio) {
         this.claveZona = claveZona;
         this.latitud = latitud;
         this.longitud = longitud;
