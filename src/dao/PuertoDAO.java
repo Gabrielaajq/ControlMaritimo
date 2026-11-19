@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Puerto;
 
-/**
- *
- * @author gabri
- */
+
 public class PuertoDAO implements CrudDAO<Puerto, String> {
 
     @Override
@@ -75,16 +72,16 @@ public class PuertoDAO implements CrudDAO<Puerto, String> {
     @Override
     public boolean editar(Puerto puerto) {
         
-        String sql = "UPDATE Puerto SET codigoPuerto = ?, nombre = ?, ciudad = ?, pais = ? WHERE numBarcos = ?";
+        String sql = "UPDATE Puerto SET nombre = ?, ciudad = ?, pais = ?, numBarcos = ? WHERE codigoPuerto = ?";
         
         try (Connection con = ConexionDB.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
             
-            ps.setString(1, puerto.getCodigoPuerto());
-            ps.setString(2, puerto.getNombre());
-            ps.setString(3, puerto.getCiudad());
-            ps.setString(4, puerto.getPais());
-            ps.setInt(5, puerto.getNumBarcos()); 
+            ps.setString(1, puerto.getNombre());
+            ps.setString(2, puerto.getCiudad());
+            ps.setString(3, puerto.getPais());
+            ps.setInt(4, puerto.getNumBarcos());
+            ps.setString(5, puerto.getCodigoPuerto()); // La PK va al final en el WHERE
             
             return ps.executeUpdate() > 0;
             
@@ -114,6 +111,32 @@ public class PuertoDAO implements CrudDAO<Puerto, String> {
             }
             return false;
         }
+    }
+    
+    @Override
+    public Puerto buscarPorId(String codigoPuerto){
+        
+        String sql = "SELECT codigoPuerto, nombre, ciudad, pais, numBarcos FROM Puerto WHERE codigoPuerto = ?";
+        
+        try (Connection con = ConexionDB.obtenerConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, codigoPuerto);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Puerto(
+                        rs.getString("codigoPuerto"),
+                        rs.getString("nombre"),
+                        rs.getString("ciudad"),
+                        rs.getString("pais"),
+                        rs.getInt("numBarcos")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al buscar el puerto: " + e.getMessage());
+        }
+        return null;
     }
     
 }

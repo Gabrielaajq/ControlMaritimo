@@ -14,6 +14,7 @@ public interface CrudDAO<Entidad, Clave> { // Entidad: clases pojo, clave: las p
     
     boolean registrar(Entidad objeto);
     List<Entidad> consultarTodos();
+    Entidad buscarPorId(Clave id); // <-- Sirve para cualquier PK (String o Integer)
     boolean editar(Entidad objeto);
     boolean eliminar(Clave id);
     

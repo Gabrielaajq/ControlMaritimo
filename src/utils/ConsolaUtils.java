@@ -116,6 +116,39 @@ public final class ConsolaUtils {
             }
         }
     }
+    
+    public static String leerTextoOpcional(String mensaje, int maxLongitud) {
+        while(true) {
+            System.out.println(mensaje);
+            String entrada = leer.nextLine().trim();
+            if (entrada.isEmpty()) {
+                return "";
+            } else if (entrada.length() > maxLongitud) {
+                System.out.println("El número máximo de caracteres es: " + maxLongitud);
+            } else {
+                return entrada;
+            }
+        }
+    }
+
+    public static Integer leerEnteroOpcional(String mensaje, int minimo, int maximo) {
+        while (true) {
+            System.out.println(mensaje);
+            String entrada = leer.nextLine().trim();
+            if (entrada.isEmpty()) {
+                return null; 
+            }
+            try {
+                int valor = Integer.parseInt(entrada);
+                if(valor >= minimo && valor <= maximo) {
+                    return valor;
+                }
+                System.out.println("Error: el número debe estar entre " + minimo + " y " + maximo + ".");
+                
+            }catch(NumberFormatException e) {
+                System.out.println("Escribe un número entero o presiona Enter para mantener el actual.");
+            }
+        }
+    }
+    
 }
-
-
