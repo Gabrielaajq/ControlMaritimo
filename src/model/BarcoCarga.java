@@ -14,9 +14,9 @@ public class BarcoCarga extends Barco{
     
     private Integer numContenedores;
 
-    public BarcoCarga(Integer numContenedores, String nombre, 
-                      String matricula, String bandera,
-                      Double pesoTonelada, LocalDate fechaBotadura) {
+    public BarcoCarga(String matricula, String bandera, String nombre,
+                      Double pesoTonelada, LocalDate fechaBotadura,
+                      Integer numContenedores) {
         super(nombre, matricula, bandera, pesoTonelada, fechaBotadura);
         this.numContenedores = numContenedores;
     }
