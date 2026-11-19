@@ -4,11 +4,16 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import model.BarcoCarga;
 import model.BarcoPasajero;
 import model.BarcoPesca;
+import java.sql.ResultSet;
 
 /**
  *
@@ -49,47 +54,214 @@ public class BarcoDAO {
     
     //-------------------------------Metodos----------------------------------//
     
-    //Añadir barco de pasajeros//
-    public boolean agregarBarcoPasajeros(BarcoPasajero barcoPasajero){
-        if(barcoPasajero == null){
+    //Registrar barco de Pasajeros//
+    public boolean registrarBarcoPasajeros(BarcoPasajero barcosPasajeros) {
+        
+        String sql = "INSERT INTO BarcoPasajero "
+                + "(matricula, bandera, nombre, pesoEnToneladas, fechaBotadura,"
+                + "numPasajeros, numPisos, tipoViaje) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = ConexionDB.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, barcosPasajeros.getMatricula());
+            ps.setString(2, barcosPasajeros.getBandera());
+            ps.setString(3, barcosPasajeros.getNombre());
+            ps.setDouble(4, barcosPasajeros.getPesoTonelada());
+            ps.setDate(5, java.sql.Date.valueOf
+                      (barcosPasajeros.getFechaBotadura()));
+            ps.setInt(6, barcosPasajeros.getNumPasajeros());
+            ps.setInt(7, barcosPasajeros.getNumPisos());
+            ps.setString(8, barcosPasajeros.getTipoViaje());
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException error) {
+            if (error.getErrorCode() == 2627) { // Error de llave primaria duplicada en SQL Server
+                System.out.println("Error. Ya existe un barco registrado con esa matricula");
+            } else {
+                System.out.println("Error al registrar el barco: " + error.getMessage());
+            }
             return false;
         }
-        
-        if(barcosPasajeros == null){
-            barcosPasajeros = new ArrayList<BarcoPasajero>();
-        }
-        
-        barcosPasajeros.add(barcoPasajero);
-        return true;
     }
     
-    //Añadir barco de carga//
-    public boolean agregarBarcoCarga(BarcoCarga barcoCarga) {
-        if (barcoCarga == null) {
-            return false;
+    
+    public List<BarcoPasajero> consultarBarcosPasajeros() {
+
+        List<BarcoPasajero> listaPasajeros = new ArrayList<>();
+
+        String sql = "SELECT * FROM BarcoPasajero";
+
+        try (Connection con = ConexionDB.obtenerConexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                BarcoPasajero barco = new BarcoPasajero(
+                    rs.getString("matricula"),
+                    rs.getString("bandera"),
+                    rs.getString("nombre"),
+                    rs.getDouble("pesoEnToneladas"),
+                    rs.getDate("fechaBotadura").toLocalDate(),
+                    rs.getInt("numPasajeros"),
+                    rs.getInt("numPisos"),
+                    rs.getString("tipoViaje")
+                );
+
+                listaPasajeros.add(barco);
+            }
+
+        } catch (SQLException error) {
+            System.out.println("Error al consultar barcos de pasajeros: "
+                    + error.getMessage());
         }
-        
-        if(barcosCarga == null) {
-            barcosCarga = new ArrayList<BarcoCarga>();
-        }
-        
-        barcosCarga.add(barcoCarga);
-        return true;
+
+        return listaPasajeros;
     }
     
-    //Añadir barco de pesca//
-    public boolean agregarBarcoPesca(BarcoPesca barcoPesca) {
-        if(barcoPesca == null) {
+    public boolean editarBarcoPasajeros(BarcoPasajero barcoPasajeros) {
+        
+        String sql = "UPDATE BarcoPasajero SET matricula = ?, bandera = ?,"
+                + "nombre = ?, pesoEnToneladas = ?, fechaBotadura = ?,"
+                + " numPasajeros = ?, numpisos = ?, tipoViaje = ? WHERE numBarcos = ?";
+        
+        try (Connection con = ConexionDB.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, barcoPasajeros.getMatricula());
+            ps.setString(2, barcoPasajeros.getBandera());
+            ps.setString(3, barcoPasajeros.getNombre());
+            ps.setDouble(4, barcoPasajeros.getPesoTonelada());
+            ps.setDate(5, java.sql.Date.valueOf
+                      (barcoPasajeros.getFechaBotadura()));
+            ps.setInt(6, barcoPasajeros.getNumPasajeros());
+            ps.setInt(7, barcoPasajeros.getNumPisos());
+            ps.setString(8, barcoPasajeros.getTipoViaje());
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el puerto: " + e.getMessage());
             return false;
         }
         
-        if(barcosPesca == null) {
-            barcosPesca = new ArrayList<BarcoPesca>();
-        }
-       
-        barcosPesca.add(barcoPesca);
-        return true;
     }
+    
+    public boolean eliminarBarcoPasajeros(String matricula) {
+        
+        String sql = "DELETE FROM Puerto WHERE codigoPuerto = ?";
+        
+        try (Connection con = ConexionDB.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, matricula);
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 547) { // Error de restricción FK en SQL 
+                System.out.println("Error. El barco tiene registros asociados.");
+            } else {
+                System.out.println("Error al eliminar el barco: " + e.getMessage());
+            }
+            return false;
+        }
+    }
+    
+    public boolean registrarBarcoCarga(BarcoPasajero barcoPasajeros) {
+        
+        String sql = "INSERT INTO BarcoCarga "
+                + "(matricula, bandera, nombre, pesoEnToneladas, fechaBotadura"
+                + "numPasajeros, numPisos, tipoViaje) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = ConexionDB.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, barcoPasajeros.getMatricula());
+            ps.setString(2, barcoPasajeros.getBandera());
+            ps.setString(3, barcoPasajeros.getNombre());
+            ps.setDouble(4, barcoPasajeros.getPesoTonelada());
+            ps.setDate(5, java.sql.Date.valueOf
+                      (barcoPasajeros.getFechaBotadura()));
+            ps.setInt(6, barcoPasajeros.getNumPasajeros());
+            ps.setInt(7, barcoPasajeros.getNumPisos());
+            ps.setString(8, barcoPasajeros.getTipoViaje());
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException error) {
+            if (error.getErrorCode() == 2627) { // Error de llave primaria duplicada en SQL Server
+                System.out.println("Error. Ya existe un barco registrado con esa matricula");
+            } else {
+                System.out.println("Error al registrar el barco: " + error.getMessage());
+            }
+            return false;
+        }
+    }
+    
+    public List<BarcoCarga> consultarBarcosCarga() {
+
+    List<BarcoCarga> listaBCarga = new ArrayList<>();
+
+        String sql = "SELECT * FROM BarcoCarga";
+
+        try (Connection con = ConexionDB.obtenerConexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                BarcoCarga barco = new BarcoCarga(
+                    rs.getInt("numContenedores"),
+                    rs.getString("nombre"),
+                    rs.getString("matricula"),
+                    rs.getString("bandera"),
+                    rs.getDouble("pesoEnToneladas"),
+                    rs.getDate("fechaBotadura").toLocalDate()
+                );
+
+                listaBCarga.add(barco);
+            }
+
+        } catch (SQLException error) {
+            System.out.println("Error al consultar barcos de carga: "
+                    + error.getMessage());
+        }
+
+        return listaBCarga;
+    }
+    
+    public boolean registrarBarcoPesca(BarcoPesca barcoPesca) {
+        
+        String sql = "INSERT INTO BarcoPesca "
+                + "(matricula, bandera, nombre, pesoEnToneladas, fechaBotadura"
+                + "cantidadToneladas) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection con = ConexionDB.obtenerConexion();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, barcoPesca.getMatricula());
+            ps.setString(2, barcoPesca.getBandera());
+            ps.setString(3, barcoPesca.getNombre());
+            ps.setDouble(4, barcoPesca.getPesoTonelada());
+            ps.setDate(5, java.sql.Date.valueOf
+                      (barcoPesca.getFechaBotadura()));
+            ps.setDouble(6, barcoPesca.getCantidadToneladas());
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException error) {
+            if (error.getErrorCode() == 2627) { // Error de llave primaria duplicada en SQL Server
+                System.out.println("Error. Ya existe un barco registrado con esa matricula");
+            } else {
+                System.out.println("Error al registrar el barco: " + error.getMessage());
+            }
+            return false;
+        }
+    }
+    
+    
     
     //Eliminar Barco de Pasajeros por medio de la matricula//
     public boolean eliminarBarcoPasajero(String matricula){

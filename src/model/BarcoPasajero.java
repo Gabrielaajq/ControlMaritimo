@@ -16,7 +16,7 @@ public class BarcoPasajero extends Barco{
     private Integer numPisos;
     private String tipoViaje;
 
-    public BarcoPasajero(Integer numPasajeros, Integer numPisos, String tipoViaje, String nombre, String matricula, String bandera, Double pesoTonelada, LocalDate fechaBotadura) {
+    public BarcoPasajero(String nombre, String matricula, String bandera, Double pesoTonelada, LocalDate fechaBotadura, Integer numPasajeros, Integer numPisos, String tipoViaje) {
         super(nombre, matricula, bandera, pesoTonelada, fechaBotadura);
         this.numPasajeros = numPasajeros;
         this.numPisos = numPisos;
