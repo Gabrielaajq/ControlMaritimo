@@ -13,7 +13,7 @@ import java.util.List;
 public interface CrudDAO<Entidad, Clave> { // Entidad: clases pojo, clave: las pk de cada una (string o integer)
     
     boolean registrar(Entidad objeto);
-    List<Entidad> consultarTodos();
+    List<Entidad> consultar();
     boolean editar(Entidad objeto);
     boolean eliminar(Clave id);
     
