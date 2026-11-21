@@ -4,6 +4,8 @@
  */
 package model;
 
+import enums.Rol;
+
 /**
  *
  * @author gabri
@@ -13,7 +15,23 @@ public class Usuario {
     private Integer usuarioId;
     private String username;
     private String password;
-
+    private Rol rol;
+    
+    //Constructor donde SQL pone pordefault el usuario id porque es incremental
+    public Usuario(String username, String password, Rol rol) {
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
+    }
+    
+    //Constructor para cuando venga de SQL
+    public Usuario(Integer usuarioId, String username, String password, Rol rol) {
+        this.usuarioId = usuarioId;
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
+    }
+    
     public Integer getUsuarioId() {
         return usuarioId;
     }
@@ -36,6 +54,14 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
     
 }
