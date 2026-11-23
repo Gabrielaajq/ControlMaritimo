@@ -151,4 +151,27 @@ public final class ConsolaUtils {
         }
     }
     
+    public static Double leerDecimalOpcional(String mensaje, double minimo, double maximo) {
+        while (true) {
+            System.out.println(mensaje);
+            String entrada = leer.nextLine().trim().replace(',', '.');
+            if (entrada.isEmpty()) {
+                return null;
+            }
+            if (!entrada.matches("-?\\d+(\\.\\d+)?")) {
+                System.out.println("Escribe un número decimal válido o presiona Enter para mantener el actual.");
+                continue;
+            }
+            try {
+                double valor = Double.parseDouble(entrada);
+                if (valor >= minimo && valor <= maximo) {
+                    return valor;
+                }
+                System.out.println("El número debe estar entre " + minimo + " y " + maximo + ".");
+            } catch (NumberFormatException e) {
+                System.out.println("Escribe un número decimal válido.");
+            }
+        }
+    }
+    
 }

@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -13,8 +13,30 @@ import java.time.LocalDate;
 public class ZonaReportada {
     
     private Integer zonaReportadaId;
-    private LocalDate fechaEntrada;
-    private LocalDate fechaSalida;
+    private LocalDateTime fechaEntrada;
+    private LocalDateTime fechaSalida;
+    private String claveZona; //fk
+    private String matricula; //fk
+
+    public ZonaReportada() {
+    }
+
+    public ZonaReportada(LocalDateTime fechaEntrada, LocalDateTime fechaSalida, 
+                         String claveZona, String matricula) {
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+        this.claveZona = claveZona;
+        this.matricula = matricula;
+    }
+
+    public ZonaReportada(Integer zonaReportadaId, LocalDateTime fechaEntrada, 
+                         LocalDateTime fechaSalida, String claveZona, String matricula) {
+        this.zonaReportadaId = zonaReportadaId;
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+        this.claveZona = claveZona;
+        this.matricula = matricula;
+    }
 
     public Integer getZonaReportadaId() {
         return zonaReportadaId;
@@ -24,20 +46,35 @@ public class ZonaReportada {
         this.zonaReportadaId = zonaReportadaId;
     }
 
-    public LocalDate getFechaEntrada() {
+    public LocalDateTime getFechaEntrada() {
         return fechaEntrada;
     }
 
-    public void setFechaEntrada(LocalDate fechaEntrada) {
+    public void setFechaEntrada(LocalDateTime fechaEntrada) {
         this.fechaEntrada = fechaEntrada;
     }
 
-    public LocalDate getFechaSalida() {
+    public LocalDateTime getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(LocalDate fechaSalida) {
+    public void setFechaSalida(LocalDateTime fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
-    
+
+    public String getClaveZona() {
+        return claveZona;
+    }
+
+    public void setClaveZona(String claveZona) {
+        this.claveZona = claveZona;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
 }
