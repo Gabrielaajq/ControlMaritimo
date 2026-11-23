@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Pescado;
 import model.Zona;
 
 /**
@@ -133,7 +134,81 @@ public class ZonaDAO implements CrudDAO<Zona, String> {
             rs.getDouble("Longitud"),
             rs.getDouble("Radio")
          );
+     }
+
+    ////// pescaos
+   
+    public boolean asociarPescado (String claveZona, Integer pescadoId){
+        String sql = "INSERT INTO Zona_Pescado (ClaveZona, ClavePescado) VALUES (?, ?)";
+        
+        try (Connection con = ConexionDB.obtenerConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, claveZona);
+            ps.setInt(2, pescadoId);
+            
+            return ps.executeUpdate() > 0;
+        }catch(SQLException error){
+            if(error.getErrorCode()== 2627){ // llave duplicada en sql 
+                System.out.println("Error esa especia ya está asociada a esta zona");
+                
+            }else if (error.getErrorCode()==547){ // llave no existe 
+                System.out.println("Error la clave de la zona o del pescado no existe");
+                
+            }else{
+                System.out.println("Error, no se pudo asociar pescado a zona"+ error.getMessage()) ;
+            }
+            return false; 
+        }    
+    }
+    
+    public boolean quitarPescado (String claveZona, Integer pescadoId){
+        String sql = "DELETE FROM Zona_Pescado WHERE ClaveZona =? AND ClavePescado = ?";
+        
+        try (Connection con = ConexionDB.obtenerConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, claveZona);
+            ps.setInt(2, pescadoId);
+            
+            return ps.executeUpdate() > 0;
+            
+        }catch (SQLException e){
+            System.out.println("Errore al quitar el pescado de la zona: "+ e.getMessage());
+            return false; 
         }
+    }
+    
+    public List<Pescado> consultarPescadoPorZona (String claveZona){
+        List<Pescado> listaPescados = new ArrayList<>();
+        
+        String sql = "SELECT p.PescadoId, p.Nombre " + 
+                     "FROM Pescado p " + 
+                     "INNER JOIN Zona_Pescado zp ON p.PescadoId = zp.PescadoId " + 
+                     "WHERE zp.ClaveZona = ?";
+        
+        try (Connection con = ConexionDB.obtenerConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, claveZona);
+           
+            try (ResultSet rs= ps.executeQuery()){
+                while (rs.next()){
+                    Pescado pescado= new Pescado(
+                       rs.getInt("pescadoId"),
+                       rs.getString("nombre")
+                    );
+                    listaPescados.add(pescado);
+                    
+                }    
+            }
+        }catch (SQLException e){
+                System.out.println("Error al consultar los pescados de la zona"+ e.getMessage());
+        }
+       return listaPescados; 
+       
+    }
+
 }
 
 
