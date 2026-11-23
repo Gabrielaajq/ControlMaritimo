@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -14,6 +14,9 @@ public class Zona {
     private Double latitud;
     private Double longitud;
     private Double radio;
+
+    public Zona() {
+    }
 
     public Zona(String claveZona, Double latitud, 
                 Double longitud, Double radio) {
