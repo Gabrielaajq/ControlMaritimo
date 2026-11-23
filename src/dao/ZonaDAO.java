@@ -136,10 +136,10 @@ public class ZonaDAO implements CrudDAO<Zona, String> {
          );
      }
 
-    ////// pescaos
+    ////// pescao
    
     public boolean asociarPescado (String claveZona, Integer pescadoId){
-        String sql = "INSERT INTO Zona_Pescado (ClaveZona, ClavePescado) VALUES (?, ?)";
+        String sql = "INSERT INTO Zona_Pescado (claveZona_FK, pescadoId_FK) VALUES (?, ?)";
         
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -163,7 +163,7 @@ public class ZonaDAO implements CrudDAO<Zona, String> {
     }
     
     public boolean quitarPescado (String claveZona, Integer pescadoId){
-        String sql = "DELETE FROM Zona_Pescado WHERE ClaveZona =? AND ClavePescado = ?";
+        String sql = "DELETE FROM Zona_Pescado WHERE claveZona_FK =? AND pescadoId_FK = ?";
         
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -184,8 +184,8 @@ public class ZonaDAO implements CrudDAO<Zona, String> {
         
         String sql = "SELECT p.PescadoId, p.Nombre " + 
                      "FROM Pescado p " + 
-                     "INNER JOIN Zona_Pescado zp ON p.PescadoId = zp.PescadoId " + 
-                     "WHERE zp.ClaveZona = ?";
+                     "INNER JOIN Zona_Pescado zp ON p.pescadoId = zp.pescadoId_FK " + 
+                     "WHERE zp.claveZona_FK = ?";
         
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
