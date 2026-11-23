@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dao.AtracoDAO;
 import dao.TransaccionDAO;
 import enums.TipoTransaccion;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import model.Transaccion;
 import utils.ConsolaUtils;
@@ -67,7 +63,7 @@ public class TransaccionController implements CrudController {
             return;
         }
 
-        LocalDate fecha = ConsolaUtils.leerFecha("Fecha de la transacción ");
+        LocalDateTime fecha = ConsolaUtils.leerFechaHora("Fecha de la transacción ");
         TipoTransaccion tipo = seleccionarTipoTransaccion();
         double elementos = ConsolaUtils.leerDecimal("Cantidad de elementos / toneladas: ", 0.01, 99999999.99);
 
@@ -114,8 +110,8 @@ public class TransaccionController implements CrudController {
 
         System.out.println("(Presione ENTER si gusta conservar el valor actual)");
 
-        LocalDate fechaFinal = actual.getFechaTransaccion();
-        LocalDate nuevaFecha = ConsolaUtils.leerFechaOpcional("Nueva fecha [" + actual.getFechaTransaccion() + "] ");
+        LocalDateTime fechaFinal = actual.getFechaTransaccion();
+        LocalDateTime nuevaFecha = ConsolaUtils.leerFechaHoraOpcional("Nueva fecha [" + actual.getFechaTransaccion() + "] ");
         if (nuevaFecha != null) {
             fechaFinal = nuevaFecha;
         }

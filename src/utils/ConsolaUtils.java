@@ -189,4 +189,19 @@ public final class ConsolaUtils {
         }
     }
     
+    public static LocalDateTime leerFechaHoraOpcional(String mensaje) {
+        while (true) {
+            System.out.println(mensaje + "(dd/MM/yyyy HH:mm o ENTER para mantener): ");
+            String entrada = leer.nextLine().trim();
+            if (entrada.isEmpty()) {
+                return null;
+            }
+            try {
+                return LocalDateTime.parse(entrada, FORMATO_FECHA_HORA);
+            } catch (DateTimeParseException e) {
+                System.out.println("Fecha u hora incorrectas. Usa el formato dd/MM/yyyy HH:mm.");
+            }
+        }
+    }
+    
 }

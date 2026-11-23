@@ -1,19 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import enums.TipoTransaccion;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import model.Transaccion;
+
 /**
  *
  * @author gabri
@@ -30,7 +27,7 @@ public class TransaccionDAO implements CrudDAO<Transaccion, String> {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, transaccion.getClaveTransaccion());
-            ps.setDate(2, Date.valueOf(transaccion.getFechaTransaccion()));
+            ps.setTimestamp(2, Timestamp.valueOf(transaccion.getFechaTransaccion()));
             ps.setString(3, tipoParaSQL(transaccion.getTipoTransaccion()));
             ps.setDouble(4, transaccion.getElementos());
             ps.setInt(5, transaccion.getAtracoId());
@@ -100,7 +97,7 @@ public class TransaccionDAO implements CrudDAO<Transaccion, String> {
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setDate(1, Date.valueOf(transaccion.getFechaTransaccion()));
+            ps.setTimestamp(1, Timestamp.valueOf(transaccion.getFechaTransaccion()));
             ps.setString(2, tipoParaSQL(transaccion.getTipoTransaccion()));
             ps.setDouble(3, transaccion.getElementos());
             ps.setInt(4, transaccion.getAtracoId());
@@ -155,10 +152,10 @@ public class TransaccionDAO implements CrudDAO<Transaccion, String> {
     }
 
     private Transaccion mapearTransaccion(ResultSet rs) throws SQLException {
-        Date sqlFecha = rs.getDate("fechaTransaccion");
-        LocalDate fecha = null;
+        Timestamp sqlFecha = rs.getTimestamp("fechaTransaccion");
+        LocalDateTime fecha = null;
         if (sqlFecha != null) {
-            fecha = sqlFecha.toLocalDate();
+            fecha = sqlFecha.toLocalDateTime();
         }
 
         int idPescadoCrudo = rs.getInt("pescadoId_FK");

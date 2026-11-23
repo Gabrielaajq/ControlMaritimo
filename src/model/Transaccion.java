@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import enums.TipoTransaccion;
 
 /**
@@ -14,14 +10,14 @@ import enums.TipoTransaccion;
 public class Transaccion {
     
     private String claveTransaccion;
-    private LocalDate fechaTransaccion;
+    private LocalDateTime fechaTransaccion;
     private TipoTransaccion tipoTransaccion;
     private Double elementos;
     private Integer atracoId;
     
     public Transaccion() {}
 
-    public Transaccion(String claveTransaccion, LocalDate fechaTransaccion, TipoTransaccion tipoTransaccion, Double elementos, Integer atracoId) {
+    public Transaccion(String claveTransaccion, LocalDateTime fechaTransaccion, TipoTransaccion tipoTransaccion, Double elementos, Integer atracoId) {
         this.claveTransaccion = claveTransaccion;
         this.fechaTransaccion = fechaTransaccion;
         this.tipoTransaccion = tipoTransaccion;
@@ -37,11 +33,11 @@ public class Transaccion {
         this.claveTransaccion = claveTransaccion;
     }
 
-    public LocalDate getFechaTransaccion() {
+    public LocalDateTime getFechaTransaccion() {
         return fechaTransaccion;
     }
 
-    public void setFechaTransaccion(LocalDate fechaTransaccion) {
+    public void setFechaTransaccion(LocalDateTime fechaTransaccion) {
         this.fechaTransaccion = fechaTransaccion;
     }
 
