@@ -174,4 +174,19 @@ public final class ConsolaUtils {
         }
     }
     
+    public static LocalDate leerFechaOpcional(String mensaje) {
+        while(true) {
+            System.out.println(mensaje + "(dd/MM/yyyy o ENTER para mantener): ");
+            String entrada = leer.nextLine().trim();
+            if (entrada.isEmpty()) {
+                return null;
+            }
+            try {
+                return LocalDate.parse(entrada, FORMATO_FECHA);
+            } catch (DateTimeParseException e) {
+                System.out.println("Fecha incorrecta. Usa el formato dd/MM/yyyy.");
+            }
+        }
+    }
+    
 }

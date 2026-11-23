@@ -5,6 +5,7 @@
 package model;
 
 import java.time.LocalDate;
+import enums.TipoTransaccion;
 
 /**
  *
@@ -14,8 +15,19 @@ public class Transaccion {
     
     private String claveTransaccion;
     private LocalDate fechaTransaccion;
-    private String tipoTransaccion;
+    private TipoTransaccion tipoTransaccion;
     private Double elementos;
+    private Integer atracoId;
+    
+    public Transaccion() {}
+
+    public Transaccion(String claveTransaccion, LocalDate fechaTransaccion, TipoTransaccion tipoTransaccion, Double elementos, Integer atracoId) {
+        this.claveTransaccion = claveTransaccion;
+        this.fechaTransaccion = fechaTransaccion;
+        this.tipoTransaccion = tipoTransaccion;
+        this.elementos = elementos;
+        this.atracoId = atracoId;
+    }
 
     public String getClaveTransaccion() {
         return claveTransaccion;
@@ -33,11 +45,11 @@ public class Transaccion {
         this.fechaTransaccion = fechaTransaccion;
     }
 
-    public String getTipoTransaccion() {
+    public TipoTransaccion getTipoTransaccion() {
         return tipoTransaccion;
     }
 
-    public void setTipoTransaccion(String tipoTransaccion) {
+    public void setTipoTransaccion(TipoTransaccion tipoTransaccion) {
         this.tipoTransaccion = tipoTransaccion;
     }
 
@@ -47,6 +59,14 @@ public class Transaccion {
 
     public void setElementos(Double elementos) {
         this.elementos = elementos;
+    }
+
+    public Integer getAtracoId() {
+        return atracoId;
+    }
+
+    public void setAtracoId(Integer atracoId) {
+        this.atracoId = atracoId;
     }
     
 }
