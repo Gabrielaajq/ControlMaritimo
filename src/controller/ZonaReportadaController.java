@@ -7,7 +7,7 @@ package controller;
 import dao.BarcoPescaDAO;
 import dao.CrudDAO;
 import dao.ZonaDAO;
-import dao.ZonaReportadaDao;
+import dao.ZonaReportadaDAO;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,7 +22,7 @@ import utils.ConsolaUtils;
  */
 public class ZonaReportadaController implements CrudController {
 
-    private final CrudDAO<ZonaReportada, Integer> zonaReportadaDao = new ZonaReportadaDao();
+    private final CrudDAO<ZonaReportada, Integer> zonaReportadaDao = new ZonaReportadaDAO();
     private final CrudDAO<Zona, String> zonaDao = new ZonaDAO();
     private final CrudDAO<BarcoPesca, String> barcoPescaDao = new BarcoPescaDAO();
 
