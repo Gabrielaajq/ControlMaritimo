@@ -4,10 +4,14 @@
  */
 package controller;
 
+import dao.BarcoCargaDAO;
+import dao.BarcoPasajeroDAO;
+import dao.BarcoPescaDAO;
 import dao.CrudDAO;
-import dao.PuertoDAO;
-import java.util.List;
-import model.Puerto;
+import java.time.LocalDate;
+import model.BarcoCarga;
+import model.BarcoPasajero;
+import model.BarcoPesca;
 import utils.ConsolaUtils;
 
 /**
@@ -17,8 +21,11 @@ import utils.ConsolaUtils;
 
 public class BarcoController {
     
-    private final CrudDAO<Puerto, String> puertoDao = new PuertoDAO();
+    private final CrudDAO<BarcoPasajero, String> BarcoPasajeroDao = new BarcoPasajeroDAO();
+    private final CrudDAO<BarcoCarga, String> BarcoCargaDao = new BarcoCargaDAO();
+    private final CrudDAO<BarcoPesca, String> BarcoPescaDao = new BarcoPescaDAO();
     
+     
     public void iniciarMenu() {
         int opcion;
         do{
@@ -39,11 +46,11 @@ public class BarcoController {
     private void mostrarMenu() {
         
         String menu = """
-                      \n=== GESTIÓN DE PUERTOS ===
-                      1. Registrar Puerto.
-                      2. Consultar Puertos.
-                      3. Editar Puerto.
-                      4. Eliminar Puerto.
+                      \n=== GESTIÓN DE BARCOS ===
+                      1. Registrar Barco.
+                      2. Consultar Barcos.
+                      3. Editar Barco.
+                      4. Eliminar Barco.
                       5. Volver.
                       """;
         
@@ -51,16 +58,26 @@ public class BarcoController {
         
     }
     
-    
+    private void tipoBarco() {
+        String menu = """
+                      Tipo de Barco la cual se realizara la accion
+                      1. Barco de Pasajeros
+                      2. Barco de Carga
+                      3. Barco de Pesca
+                      """;
+        System.out.println("menu");
+    }
     
     public void registrar() {
-        
-        System.out.println("\n=== Nuevo Puerto ===");
-        String codigo = ConsolaUtils.leerTexto("Código del puerto (máx. 10 caracteres): ", 10).toUpperCase();
-        String nombre = ConsolaUtils.leerTexto("Nombre del puerto: ", 50);
-        String ciudad = ConsolaUtils.leerTexto("Ciudad: ", 50);
-        String pais = ConsolaUtils.leerTexto("País: ", 50);
-        int numBarcos = ConsolaUtils.leerEntero("Capacidad máxima de barcos: ", 1, 10000);
+        int opcion;
+        System.out.println("\n=== Nuevo Barco ===");
+        tipoBarco();
+        opcion = ConsolaUtils.leerEntero("Seleccione una opción: ", 1, 3);
+        String matricula = ConsolaUtils.leerTexto("Matricula del Barco (máx. 10 caracteres): ", 10).toUpperCase();
+        String bandera = ConsolaUtils.leerTexto("Bandera del Barco: ", 20);
+        String nombre = ConsolaUtils.leerTexto("Nombre del Barco: ", 50);
+        Double pesoEnToneladas = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ");
+        LocalDate fechaBotadura = ConsolaUtils.leerFecha("Capacidad máxima de barcos: ", 1, 10000);
 
         try {
             Puerto puertoNuevo = new Puerto(codigo, nombre, 
