@@ -124,7 +124,7 @@ public class BarcoPasajeroController implements CrudController {
         System.out.println("(Presione ENTER si gusta conservar el valor actual)");
         
         String banderaFinal = actual.getBandera();
-        String nuevaBandera = ConsolaUtils.leerTextoOpcional("Nuevo bandera [" + actual.getBandera() + "]: ", 20);
+        String nuevaBandera = ConsolaUtils.leerTextoOpcional("Nueva bandera [" + actual.getBandera() + "]: ", 20);
         if (!nuevaBandera.isEmpty()) {
             banderaFinal = nuevaBandera;
         }
@@ -142,46 +142,60 @@ public class BarcoPasajeroController implements CrudController {
         }
         
         LocalDate fechaFinal = actual.getFechaBotadura();
-        String nuevaFecha = ConsolaUtils.leerFechaOpcional("Nueva fecha del Barco [" + actual.getFechaBotadura() + "]: ", 50);
-        if (!nuevaCiudad.isEmpty()) {
-            ciudadFinal = nuevaCiudad;
+        LocalDate nuevaFecha = ConsolaUtils.leerFechaOpcional("Nueva fecha del Barco [" + actual.getFechaBotadura() + "]: ");
+        if (nuevaFecha != null) {
+            fechaFinal = nuevaFecha;
         }
 
-        int numBarcosFinal = actual.getNumBarcos();
-        Integer nuevoNumBarcos = ConsolaUtils.leerEnteroOpcional("Nueva capacidad de barcos [" + actual.getNumBarcos() + "]: ", 1, 10000);
-        if (nuevoNumBarcos != null) {
-            numBarcosFinal = nuevoNumBarcos;
+        Integer numPasajerosFinal = actual.getNumPasajeros();
+        Integer nuevoNumPasajeros = ConsolaUtils.leerEnteroOpcional("Nueva capacidad de Pasajeros Maximo del barco [" + actual.getNumPasajeros() + "]: ", 1, 10000);
+        if (nuevoNumPasajeros != null) {
+            numPasajerosFinal = nuevoNumPasajeros;
+        }
+        
+        Integer numPisosFinal = actual.getNumPisos();
+        Integer nuevoNumPisos = ConsolaUtils.leerEnteroOpcional("Nuevo numero de pisos del barco [" + actual.getNumPasajeros() + "]: ", 1, 10000);
+        if (nuevoNumPisos != null) {
+            numPisosFinal = nuevoNumPisos;
+        }
+        
+        String tipoViajeFinal = actual.getBandera();
+        String nuevoTipoViaje = ConsolaUtils.leerTextoOpcional("Nueva bandera [" + actual.getTipoViaje() + "]: ", 15);
+        if (!nuevoTipoViaje.isEmpty()) {
+            tipoViajeFinal = nuevoTipoViaje;
         }
         
         try {
-            Puerto puertoEditado = new Puerto(codigo, nombreFinal, 
-                    ciudadFinal, paisFinal, numBarcosFinal);
-            if(puertoDao.editar(puertoEditado)){
-                System.out.println("Puerto actualizado correctamente.");
+            BarcoPasajero barcoPasajeroEditado = new BarcoPasajero(matricula, banderaFinal, 
+                    nombreFinal, pesoFinal, fechaFinal, numPasajerosFinal,
+                    numPisosFinal, tipoViajeFinal);
+            if(barcoPasajeroDao.editar(barcoPasajeroEditado)){
+                System.out.println("Barco actualizado correctamente.");
             }
             
         } catch (IllegalArgumentException e){
-            System.out.println("Error al agregar puerto: " + e.getMessage());
+            System.out.println("Error al realizar los cambios del barco de Pasajeros: " + e.getMessage());
         }
     }
     
     @Override
     public void eliminar() {
-        System.out.println("\n=== Eliminar Puerto ===");
-        String codigo = ConsolaUtils.leerTexto("Código del puerto a eliminar: ", 10).toUpperCase();
-        String confirmacion = ConsolaUtils.leerTexto("¿Confirmas eliminar el puerto " + codigo + "? (S/N): ", 1);
+        System.out.println("\n=== Eliminar Barco de Pasajeros ===");
+        String matricula = ConsolaUtils.leerTexto("Matricula del Barco de Pasajeros a eliminar: ", 10).toUpperCase();
+        String confirmacion = ConsolaUtils.leerTexto("¿Confirmas eliminar el puerto " + matricula + "? (S/N): ", 1);
         
         
         try {
             if(confirmacion.equalsIgnoreCase("S")){
-                if(puertoDao.eliminar(codigo)){
-                    System.out.println("Puerto eliminado correctamente.");
+                if(barcoPasajeroDao.eliminar(matricula)){
+                    System.out.println("Barcos de Pasajeros eliminado correctamente.");
                 }
             }
             
         } catch (IllegalArgumentException e){
-            System.out.println("No se pudo eliminar: " + e.getMessage());
+            System.out.println("Error al eliminar: " + e.getMessage());
         }
         
     }
+    
 }
