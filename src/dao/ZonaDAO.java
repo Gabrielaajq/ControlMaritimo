@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -14,8 +10,8 @@ import model.Pescado;
 import model.Zona;
 
 /**
- *
- * @author gabri
+ * Gestiona la persistencia de {@link Zona} y las relaciones muchos a muchos
+ * con especies en la tabla {@code Zona_Pescado}
  */
 public class ZonaDAO implements CrudDAO<Zona, String> {
    

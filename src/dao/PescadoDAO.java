@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -14,8 +10,8 @@ import java.util.List;
 import model.Pescado;
 
 /**
- *
- * @author leonm
+ * Proporciona acceso a los datos del catálogo de especies
+ * en la tabla {@code Pescado}
  */
 public class PescadoDAO implements CrudDAO<Pescado, Integer> {
 

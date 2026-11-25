@@ -1,21 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDate;
 
 /**
- *
- * @author gabri
+ * Representa el evento de arribo de un barco a un puerto específico
+ * en una fecha determinada
  */
 public class Atraco {
     
     private Integer atracoId;
     private LocalDate fechaAtraco;
-    private String codigoPuerto; //FK
-    private String matricula; //FK
+    private String codigoPuerto; 
+    private String matricula; 
 
     public Atraco() {
     }

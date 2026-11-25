@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -12,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Usuario;
 import enums.Rol;
+
 /**
- *
- * @author gabri
+ * Implementa las operaciones de persistencia y validación de credenciales
+ * para la tabla {@code Usuario} en SQL Server
  */
 public class UsuarioDAO implements CrudDAO<Usuario, Integer> {
     
@@ -121,7 +118,15 @@ public class UsuarioDAO implements CrudDAO<Usuario, Integer> {
             return false;
         }
     }
-
+    
+    /**
+     * Verifica si existen credenciales coincidentes en la base de datos
+     *
+     * @param username Nombre de usuario ingresado
+     * @param password Contraseña ingresada
+     * @return Objeto {@link Usuario} con su rol asignado
+     * o {@code null} si son inválidas
+     */
     public Usuario iniciarSesion(String username, String password) {
         String sql = "SELECT usuarioId, username, password, rol FROM Usuario WHERE username = ? AND password = ?";
         
@@ -147,7 +152,6 @@ public class UsuarioDAO implements CrudDAO<Usuario, Integer> {
         return null;
     }
 
-    //Java -> SQL
     private String rolParaSQL(Rol rol) {
         if (rol == Rol.ADMINISTRADOR) {
             return "Administrador";
@@ -155,7 +159,6 @@ public class UsuarioDAO implements CrudDAO<Usuario, Integer> {
         return "Usuario";
     }
     
-    //SQL <- Java
     private Rol rolDesdeSQL(String rolSQL) {
         return Rol.valueOf(rolSQL.trim().toUpperCase());
     }

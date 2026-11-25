@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDate;
 
 /**
- *
- * @author gabri
+ * Representa un barco pesquer, añadiendo su capacidad máxima de captura
+ * en toneladas y su relación con las especies que busca
  */
 public class BarcoPesca extends Barco{
     

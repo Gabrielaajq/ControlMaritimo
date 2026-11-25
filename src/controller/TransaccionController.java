@@ -9,8 +9,8 @@ import model.Transaccion;
 import utils.ConsolaUtils;
 
 /**
- *
- * @author gabri
+ * Controlador de consola para administrar las operaciones de carga y descarga
+ * ({@link Transaccion}) derivadas de los atracos portuarios
  */
 public class TransaccionController implements CrudController {
     

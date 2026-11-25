@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dao.BarcoPescaDAO;
@@ -12,8 +8,8 @@ import model.BarcoPesca;
 import utils.ConsolaUtils;
 
 /**
- *
- * @author emman
+ * Controlador de consola para {@link BarcoPesca}
+ * y el catálogo de especies que cada barco busca
  */
 public class BarcoPescaController implements CrudController{
 

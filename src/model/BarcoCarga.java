@@ -1,14 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDate;
 
 /**
- *
- * @author gabri
+ * Representa una embarcación especializada en el transporte
+ * de mercancías, extendiendo los datos generales de 
+ * {@link Barco} con su capacidad de contenedores
  */
 public class BarcoCarga extends Barco{
     

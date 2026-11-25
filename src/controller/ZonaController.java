@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dao.ZonaDAO;
@@ -11,8 +7,8 @@ import model.Zona;
 import utils.ConsolaUtils;
 
 /**
- *
- * @author gabri
+ * Controlador de consola para la gestión de {@link Zona} de pesca y la
+ * vinculación de las especies presentes en cada una
  */
 public class ZonaController implements CrudController {
     

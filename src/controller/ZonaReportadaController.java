@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dao.BarcoPescaDAO;
@@ -17,8 +13,8 @@ import model.ZonaReportada;
 import utils.ConsolaUtils;
 
 /**
- *
- * @author leonm
+ * Controlador de consola para gestionar las entradas y salidas de barcos pesqueros
+ * en zonas de pesca mediante {@link ZonaReportada}
  */
 public class ZonaReportadaController implements CrudController {
 
@@ -48,13 +44,13 @@ public class ZonaReportadaController implements CrudController {
 
     private void mostrarMenu() {
         String menu = """
-                      \n=== GESTIÓN DE ACTIVIDAD EN ZONAS DE PESCA ===
-1. Registrar Entrada/Actividad en Zona.
-2. Consultar Zonas Reportadas.
-3. Editar Reporte / Registrar Salida.
-4. Eliminar Reporte de Zona.
-5. Volver.
-                      """;
+                    \n=== GESTIÓN DE ACTIVIDAD EN ZONAS DE PESCA ===
+                    1. Registrar Entrada/Actividad en Zona.
+                    2. Consultar Zonas Reportadas.
+                    3. Editar Reporte / Registrar Salida.
+                    4. Eliminar Reporte de Zona.
+                    5. Volver.
+                    """;
         System.out.println(menu);
     }
 
