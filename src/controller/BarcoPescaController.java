@@ -91,7 +91,7 @@ public class BarcoPescaController implements CrudController{
 
             System.out.printf("Matricula: %s, Bandera: %s, Nombre: %s "
                     + "Peso del Barco: %st, Fecha de Botadura: %s "
-                    + "Peso Maxima de Carga de Pescado: %st, ",
+                    + "Peso Maxima de Carga de Pescado: %st \n",
                     bsPc.getMatricula(),
                     bsPc.getBandera(),
                     bsPc.getNombre(),
