@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import enums.TipoTransaccion;
 
 /**
- *
- * @author gabri
+ * Modela una operación de carga o descarga asociada a un
+ * atraco portuario, registrando fecha, hora y volumen operado
  */
 public class Transaccion {
     

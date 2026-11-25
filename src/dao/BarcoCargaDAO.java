@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -13,8 +9,8 @@ import java.util.List;
 import model.BarcoCarga;
 
 /**
- *
- * @author emman
+ * Gestiona las operaciones de persistencia para barcos 
+ * de {@link BarcoCarga}
  */
 public class BarcoCargaDAO implements CrudDAO<BarcoCarga, String> {
     
@@ -39,7 +35,7 @@ public class BarcoCargaDAO implements CrudDAO<BarcoCarga, String> {
             return ps.executeUpdate() > 0;
             
         } catch (SQLException error) {
-            if (error.getErrorCode() == 2627) { // Error de llave primaria duplicada en SQL Server
+            if (error.getErrorCode() == 2627) { 
                 System.out.println("Error. Ya existe un barco"
                         + " registrado con esa matricula");
             } else {
@@ -156,7 +152,7 @@ public class BarcoCargaDAO implements CrudDAO<BarcoCarga, String> {
             return ps.executeUpdate() > 0;
             
         } catch (SQLException e) {
-            if (e.getErrorCode() == 547) { // Error de restricción FK en SQL 
+            if (e.getErrorCode() == 547) { 
                 System.out.println("Error. El barco "
                         + "tiene registros asociados.");
             } else {

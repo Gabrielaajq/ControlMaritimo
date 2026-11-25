@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package controller;
 
 import dao.AtracoDAO;
@@ -23,8 +18,8 @@ import model.Puerto;
 import utils.ConsolaUtils;
 
 /**
- *
- * @author leonm
+ * Controlador de consola que coordina el registro de {@link Atraco}
+ * de cualquier tipo de embarcación en los puertos disponibles
  */
 public class AtracoController implements CrudController {
 

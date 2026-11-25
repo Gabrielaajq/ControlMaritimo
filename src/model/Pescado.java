@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 /**
- *
- * @author gabri
+ * Modela una especie catalogada dentro del sistema para vincularse
+ * tanto con zonas de pesca como con barcos pesqueros
  */
 public class Pescado {
     

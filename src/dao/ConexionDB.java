@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -9,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
- * @author gabri
+ * Gestiona el establecimiento de conexiones JDBC hacia la base de datos
+ * relacional en SQL Server
  */
 public class ConexionDB {
 
@@ -18,6 +14,12 @@ public class ConexionDB {
         private static final String USER = "sa";
         private static final String PASSWORD = "PasswordFEI2026!"; 
 
+    /**
+     * Abre y retorna una nueva conexión activa con la base de datos 
+     *
+     * @return Objeto {@link Connection} listo para ejecutar sentencias SQL
+     * @throws SQLException Si ocurre un error de red, credenciales o driver JDBC
+     */
         public static Connection obtenerConexion() throws SQLException {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

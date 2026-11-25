@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDate;
 
 /**
- *
- * @author gabri
+ * Representa un barco destinado al traslado de personas, agregando
+ * capacidad de pasajeros, número de pisos y tipo de viaje
  */
 public class BarcoPasajero extends Barco{
      

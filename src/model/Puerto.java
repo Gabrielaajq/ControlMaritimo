@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 /**
- *
- * @author gabri
+ * Modela un puerto marítimo identificado por su código único, 
+ * ubicación geográfica y capacidad máxima de 
+ * atención simultánea de embarcaciones
  */
 public class Puerto {
     

@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDate;
 
 /**
- *
- * @author gabri
+ * Clase padre que modela los atributos y comportamientos generales de cualquier
+ * barco registrado en el sistema 
  */
 public abstract class Barco {
     

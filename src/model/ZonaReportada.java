@@ -1,22 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDateTime;
 
 /**
- *
- * @author gabri
+ * Registra la actividad de un barco pesquero dentro de una zona de pesca,
+ * almacenando las fechas de entrada y salida
  */
 public class ZonaReportada {
     
     private Integer zonaReportadaId;
     private LocalDateTime fechaEntrada;
     private LocalDateTime fechaSalida;
-    private String claveZona; //fk
-    private String matricula; //fk
+    private String claveZona; 
+    private String matricula;
 
     public ZonaReportada() {
     }

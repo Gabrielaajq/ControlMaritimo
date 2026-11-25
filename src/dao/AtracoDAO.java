@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -16,8 +12,8 @@ import java.util.List;
 import model.Atraco;
 
 /**
- *
- * @author leonm
+ * Administra la persistencia de los registros de {@link Atraco} 
+ * entre puertos y barcos
  */
 public class AtracoDAO implements CrudDAO<Atraco, Integer> {
 
@@ -44,7 +40,7 @@ public class AtracoDAO implements CrudDAO<Atraco, Integer> {
             return false;
 
         } catch (SQLException error) {
-            if (error.getErrorCode() == 547) { // Error de restricción FK en SQL Server
+            if (error.getErrorCode() == 547) { 
                 System.out.println("Error. El código de puerto o la matrícula del barco no existen.");
             } else {
                 System.out.println("Error al registrar el atraco: " + error.getMessage());

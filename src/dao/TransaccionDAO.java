@@ -12,8 +12,8 @@ import java.util.List;
 import model.Transaccion;
 
 /**
- *
- * @author gabri
+ * Gestiona las operaciones CRUD de {@link Transaccion} 
+ * vinculadas a los atracos portuarios
  */
 public class TransaccionDAO implements CrudDAO<Transaccion, String> {
     

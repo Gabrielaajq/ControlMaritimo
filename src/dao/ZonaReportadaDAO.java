@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -17,8 +13,8 @@ import java.util.List;
 import model.ZonaReportada;
 
 /**
- *
- * @author leonm
+ * Administra el almacenamiento y consulta de actividades pesqueras
+ * en la tabla {@code ZonaReportada}
  */
 public class ZonaReportadaDAO implements CrudDAO<ZonaReportada, Integer> {
 
@@ -151,7 +147,14 @@ public class ZonaReportadaDAO implements CrudDAO<ZonaReportada, Integer> {
             return false;
         }
     }
-
+    
+    /**
+     * Actualiza únicamente la fecha y hora de salida de un reporte activo
+     *
+     * @param zonaReportadaId Identificador del reporte de zona
+     * @param fechaSalida Marca de tiempo de salida del barco
+     * @return {@code true} si se actualizó el registro correctamente
+     */
     public boolean registrarSalida(int zonaReportadaId, LocalDateTime fechaSalida) {
         String sql = "UPDATE ZonaReportada SET fechaSalida = ? WHERE zonaReportadaId = ?";
 
@@ -168,6 +171,12 @@ public class ZonaReportadaDAO implements CrudDAO<ZonaReportada, Integer> {
         }
     }
 
+    /**
+     * Obtiene el historial por una zona de pesca específica
+     *
+     * @param claveZona Clave única de la zona de pesca
+     * @return Lista de reportes asociados a dicha zona
+     */
     public List<ZonaReportada> consultarPorZona(String claveZona) {
         List<ZonaReportada> lista = new ArrayList<>();
         String sql = "SELECT zonaReportadaId, fechaEntrada, fechaSalida, claveZona_FK, matricula_FK "
@@ -188,6 +197,12 @@ public class ZonaReportadaDAO implements CrudDAO<ZonaReportada, Integer> {
         return lista;
     }
 
+    /**
+     * Obtiene el historial de actividad de un barco pesquero en distintas zonas
+     *
+     * @param matricula Matrícula única del barco pesquero
+     * @return Lista de reportes correspondientes a la embarcación
+     */
     public List<ZonaReportada> consultarPorBarco(String matricula) {
         List<ZonaReportada> lista = new ArrayList<>();
         String sql = "SELECT zonaReportadaId, fechaEntrada, fechaSalida, claveZona_FK, matricula_FK "
