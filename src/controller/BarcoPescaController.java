@@ -1,10 +1,14 @@
 package controller;
 
+import dao.BarcoConPescadoDAO;
 import dao.BarcoPescaDAO;
 import dao.CrudDAO;
+import dao.PescadoDAO;
+import dao.RelacionBarcoPescadoDAO;
 import java.time.LocalDate;
 import java.util.List;
 import model.BarcoPesca;
+import model.Pescado;
 import utils.ConsolaUtils;
 
 /**
@@ -14,23 +18,29 @@ import utils.ConsolaUtils;
 public class BarcoPescaController implements CrudController{
 
     private final CrudDAO<BarcoPesca, String> barcoPescaDao = new BarcoPescaDAO();
+    private final CrudDAO<Pescado, Integer> pescadoDao = new PescadoDAO();
+    private final RelacionBarcoPescadoDAO<Pescado, String, Integer> 
+            barcoConPescadoDao = new BarcoConPescadoDAO();
 
     @Override
     public void iniciarMenu() {
         int opcion;
         do{
             mostrarMenu();
-            opcion = ConsolaUtils.leerEntero("Seleccione una opción: ", 1, 5);
+            opcion = ConsolaUtils.leerEntero("Seleccione una opción: ", 1, 8);
 
             switch(opcion) {
                 case 1 -> registrar();
                 case 2 -> consultar();
                 case 3 -> editar();
                 case 4 -> eliminar();
-                case 5 -> System.out.println("Regresando...");
+                case 5 -> asignarPescado();
+                case 6 -> consultarPescado();
+                case 7 -> eliminarPescado();
+                case 8 -> System.out.println("Regresando...");
                 default -> System.out.println("Opción no válida...");
             }
-        } while (opcion != 5);
+        } while (opcion != 8);
     }
 
     private void mostrarMenu() {
@@ -41,7 +51,10 @@ public class BarcoPescaController implements CrudController{
                       2. Consultar Barco de Pesca.
                       3. Editar Barco de Pesca.
                       4. Eliminar Barco de Pesca.
-                      5. Volver.
+                      5. Asociar Pescado a un Barco
+                      6. Consultar tipo de Pescado de un Barco
+                      7. Eliminar Pescado de un Barco
+                      8. Volver.
                       """;
 
         System.out.println(menu);
@@ -175,4 +188,125 @@ public class BarcoPescaController implements CrudController{
 
     }
 
+        public void asignarPescado() {
+            
+        List<Pescado> listaPescados = pescadoDao.consultarTodos();
+
+        if (listaPescados.isEmpty()) {
+            System.out.println("No hay pescados registrados en este momento.");
+            return;
+        }
+
+        System.out.println("\n=== Asignar Pescado a Barco de Pesca ===");
+
+        String matricula = ConsolaUtils.leerTexto(
+                "Matricula del Barco al cual se le asignara el pescado: ",
+                10).toUpperCase();
+
+        BarcoPesca barcoActual = barcoPescaDao.buscarPorId(matricula);
+
+        if (barcoActual == null) {
+            System.out.println("No se encontró ningún Barco de Pesca "
+                    + "con la matricula " + matricula + ".");
+            return;
+        }
+
+        Integer id = ConsolaUtils.leerEntero(
+                "Escribe el ID del Pescado a asignar: ",
+                1, Integer.MAX_VALUE);
+
+        Pescado buscarPescado = pescadoDao.buscarPorId(id);
+
+        if (buscarPescado == null) {
+            System.out.println("No se encontró ningún Pescado "
+                    + "con el ID " + id + ".");
+            return;
+        }
+
+        if (barcoConPescadoDao.asignarPescado(matricula, id)) {
+            System.out.println("Pescado asignado correctamente.");
+        } else {
+            System.out.println("No se pudo asignar el pescado.");
+        }
+    }
+        
+    public void consultarPescado() {
+
+        System.out.println("\n=== Consultar Pescados de un Barco ===");
+
+        String matricula = ConsolaUtils.leerTexto(
+                "Matricula del Barco a consultar los pescados que busca: ", 10).toUpperCase();
+
+        BarcoPesca barcoActual = barcoPescaDao.buscarPorId(matricula);
+
+        if (barcoActual == null) {
+            System.out.println("Error. No se encontró ningún Barco de Pesca "
+                    + "con la matricula " + matricula + ".");
+            return;
+        }
+
+        List<Pescado> listaPescados =
+                barcoConPescadoDao.consultarTodos(matricula);
+
+        if (listaPescados.isEmpty()) {
+            System.out.println("No se encontraron pescados asociados al barco");
+            return;
+        }
+
+        System.out.println("\nPescados asociados al barco "
+                + barcoActual.getNombre() + ":");
+
+        for (Pescado pescado : listaPescados) {
+            System.out.printf("ID del Pescado: %s, Nombre del Pescado: %s%n",
+                    pescado.getPescadoId(),
+                    pescado.getNombre());
+        }
+    }
+    
+    public void eliminarPescado() {
+
+        System.out.println("\n=== Eliminar Pescado de un Barco ===");
+
+        String matricula = ConsolaUtils.leerTexto(
+                "Matricula del Barco: ", 10).toUpperCase();
+
+        BarcoPesca barcoActual = barcoPescaDao.buscarPorId(matricula);
+
+        if (barcoActual == null) {
+            System.out.println("Error. No se encontró ningún Barco de Pesca "
+                    + "con la matricula " + matricula + ".");
+            return;
+        }
+
+        List<Pescado> listaPescados =
+                barcoConPescadoDao.consultarTodos(matricula);
+
+        if (listaPescados.isEmpty()) {
+            System.out.println("No hay pescados asociados al barco "
+                    + "o no se pudieron consultar.");
+            return;
+        }
+
+        System.out.println("\n=== Pescados Asociados ===");
+
+        for (Pescado pescado : listaPescados) {
+            System.out.printf("ID del Pescado: %s, Nombre del Pescado: %s%n",
+                    pescado.getPescadoId(),
+                    pescado.getNombre());
+        }
+
+        Integer id = ConsolaUtils.leerEntero(
+                "Escribe el ID del Pescado a eliminar: ",
+                1, Integer.MAX_VALUE);
+
+        boolean resultado = barcoConPescadoDao.eliminar(matricula, id);
+
+        if (resultado) {
+            System.out.println("Pescado eliminado correctamente del barco.");
+        } else {
+            System.out.println("Error. No se pudo eliminar el pescado "
+                    + "con la matricula " + matricula + " del barco "
+                    + barcoActual.getNombre() + ".");
+        }
+    }
 }
