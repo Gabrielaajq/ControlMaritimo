@@ -7,7 +7,8 @@ package dao;
 import java.util.List;
 
 /**
- * Interfaz genérica que define las operaciones estándar de persistencia (CRUD)
+ * Interfaz genérica que define las operaciones estándar de persistencia
+ * (RelacionBarcoPescadoDAO)
  * sobre la base de datos relacional para cualquier entidad del dominio.
  * @param <Entidad> Tipo de modelo o entidad que gestiona el DAO.
  * @param <Clave1> Tipo de dato de la llave primaria de la primera entidad.

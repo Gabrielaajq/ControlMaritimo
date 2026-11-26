@@ -33,8 +33,7 @@ public class BarcoConPescadoDAO
             
         } catch (SQLException error) {
             if (error.getErrorCode() == 2627) { 
-                System.out.println("Error. Ya existe un barco"
-                        + " registrado con esa matricula");
+                System.out.println("El pescado ya está asociado a este barco");
             } else {
                 System.out.println("Error al registrar el barco: " 
                         + error.getMessage());

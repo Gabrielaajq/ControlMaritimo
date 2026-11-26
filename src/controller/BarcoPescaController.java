@@ -170,7 +170,7 @@ public class BarcoPescaController implements CrudController{
 
     @Override
     public void eliminar() {
-        System.out.println("\n=== Eliminar Barco de Carga ===");
+        System.out.println("\n=== Eliminar Barco de Pesca ===");
         String matricula = ConsolaUtils.leerTexto("Matricula del Barco de Pesca a eliminar: ", 10).toUpperCase();
         String confirmacion = ConsolaUtils.leerTexto("¿Confirmas eliminar el Barco de Pesca " + matricula + "? (S/N): ", 1);
 
@@ -188,14 +188,7 @@ public class BarcoPescaController implements CrudController{
 
     }
 
-        public void asignarPescado() {
-            
-        List<Pescado> listaPescados = pescadoDao.consultarTodos();
-
-        if (listaPescados.isEmpty()) {
-            System.out.println("No hay pescados registrados en este momento.");
-            return;
-        }
+    public void asignarPescado() {
 
         System.out.println("\n=== Asignar Pescado a Barco de Pesca ===");
 
@@ -209,6 +202,20 @@ public class BarcoPescaController implements CrudController{
             System.out.println("No se encontró ningún Barco de Pesca "
                     + "con la matricula " + matricula + ".");
             return;
+        }
+        
+        List<Pescado> listaPescados = pescadoDao.consultarTodos();
+
+        if (listaPescados.isEmpty()) {
+            System.out.println("No hay pescados registrados en este momento.");
+            return;
+        }
+        
+        System.out.println("\n=== Pescados disponibles ===");
+        for (Pescado pescado : listaPescados) {
+            System.out.printf("ID del Pescado: %d, Nombre del Pescado: %s%n",
+                    pescado.getPescadoId(),
+                    pescado.getNombre());
         }
 
         Integer id = ConsolaUtils.leerEntero(

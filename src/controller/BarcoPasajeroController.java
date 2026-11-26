@@ -155,7 +155,7 @@ public class BarcoPasajeroController implements CrudController {
         }
         
         String tipoViajeFinal = actual.getTipoViaje();
-        String nuevoTipoViaje = ConsolaUtils.leerTextoOpcional("Nueva bandera [" + actual.getTipoViaje() + "]: ", 15);
+        String nuevoTipoViaje = ConsolaUtils.leerTextoOpcional("Nuevo Tipo de Viaje [" + actual.getTipoViaje() + "]: ", 15);
         if (!nuevoTipoViaje.isEmpty()) {
             tipoViajeFinal = nuevoTipoViaje;
         }
@@ -177,7 +177,7 @@ public class BarcoPasajeroController implements CrudController {
     public void eliminar() {
         System.out.println("\n=== Eliminar Barco de Pasajeros ===");
         String matricula = ConsolaUtils.leerTexto("Matricula del Barco de Pasajeros a eliminar: ", 10).toUpperCase();
-        String confirmacion = ConsolaUtils.leerTexto("¿Confirmas eliminar el puerto " + matricula + "? (S/N): ", 1);
+        String confirmacion = ConsolaUtils.leerTexto("¿Confirmas eliminar el barco de pasajeros con matricula " + matricula + "? (S/N): ", 1);
         
         
         try {
