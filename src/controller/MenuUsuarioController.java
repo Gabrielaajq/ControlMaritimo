@@ -6,10 +6,10 @@ package controller;
 public class MenuUsuarioController extends MenuBaseController {
     
     public MenuUsuarioController() {
-        super("\n=== Menú del Usuario ===");
+        super("Menú del Usuario");
         agregarOpcion("Gestión de Transacciones", new TransaccionController());
-        // agregarOpcion("Gestión de Atracos", new AtracoController());
-        // agregarOpcion("Gestión de Zonas Reportadas", new ZonaReportadaController());
+        agregarOpcion("Gestión de Atracos", new AtracoController());
+        agregarOpcion("Gestión de Zonas Reportadas", new ZonaReportadaController());
     }
     
 }

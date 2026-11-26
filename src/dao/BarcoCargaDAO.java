@@ -1,168 +1,212 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.BarcoCarga;
 
 /**
- * Gestiona las operaciones de persistencia para barcos 
- * de {@link BarcoCarga}
+ * Gestiona las operaciones CRUD de {@link BarcoCarga} 
+ * entre la tabla padre {@code Barco} y la tabla {@code BarcoCarga}.
  */
 public class BarcoCargaDAO implements CrudDAO<BarcoCarga, String> {
-    
+
     @Override
-    public boolean registrar(BarcoCarga barcoCarga) {
+    public boolean registrar(BarcoCarga barco) {
+        String sqlBarco = "INSERT INTO Barco "
+                + "(matricula, bandera, nombre, pesoTonelada, fechaBotadura) "
+                + "VALUES (?, ?, ?, ?, ?)";
         
-        String sql = "INSERT INTO BarcoCarga "
-                + "(matricula, bandera, nombre, pesoEnToneladas, "
-                + "fechaBotadura, numContenedores) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection con = ConexionDB.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(sql)) {
-            
-            ps.setString(1, barcoCarga.getMatricula());
-            ps.setString(2, barcoCarga.getBandera());
-            ps.setString(3, barcoCarga.getNombre());
-            ps.setDouble(4, barcoCarga.getPesoTonelada());
-            ps.setDate(5, java.sql.Date.valueOf
-                      (barcoCarga.getFechaBotadura()));
-            ps.setInt(6, barcoCarga.getNumContenedores());
-            
-            return ps.executeUpdate() > 0;
-            
-        } catch (SQLException error) {
-            if (error.getErrorCode() == 2627) { 
-                System.out.println("Error. Ya existe un barco"
-                        + " registrado con esa matricula");
-            } else {
-                System.out.println("Error al registrar el barco: " 
-                        + error.getMessage());
+        String sqlCarga = "INSERT INTO BarcoCarga "
+                + "(matricula_FK, numContenedores)"
+                + " VALUES (?, ?)";
+
+        try (Connection con = ConexionDB.obtenerConexion()) {
+            con.setAutoCommit(false);
+            try (PreparedStatement psBarco = con.prepareStatement(sqlBarco);
+                 PreparedStatement psCarga = con.prepareStatement(sqlCarga)) {
+
+                psBarco.setString(1, barco.getMatricula());
+                psBarco.setString(2, barco.getBandera());
+                psBarco.setString(3, barco.getNombre());
+                psBarco.setDouble(4, barco.getPesoTonelada());
+                psBarco.setDate(5, Date.valueOf(barco.getFechaBotadura()));
+                psBarco.executeUpdate();
+
+                psCarga.setString(1, barco.getMatricula());
+                psCarga.setInt(2, barco.getNumContenedores());
+                psCarga.executeUpdate();
+
+                con.commit();
+                return true;
+            } catch (SQLException e) {
+                con.rollback();
+                if (e.getErrorCode() == 2627) {
+                    System.out.println("Error: Ya existe un barco registrado con la matrícula " + barco.getMatricula());
+                } else {
+                    System.out.println("Error al registrar el barco de carga: " + e.getMessage());
+                }
+                return false;
+            } finally {
+                con.setAutoCommit(true);
             }
+        } catch (SQLException e) {
+            System.out.println("Error de conexión al registrar el barco de carga: " + e.getMessage());
             return false;
         }
     }
 
     @Override
     public List<BarcoCarga> consultarTodos() {
-        
-        List<BarcoCarga> listaBCarga = new ArrayList<>();
-
-        String sql = "SELECT * FROM BarcoCarga";
+        List<BarcoCarga> lista = new ArrayList<>();
+        String sql = "SELECT b.matricula, b.bandera, b.nombre, b.pesoTonelada, b.fechaBotadura, bc.numContenedores "
+                   + "FROM Barco b "
+                   + "INNER JOIN BarcoCarga bc ON b.matricula = bc.matricula_FK";
 
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-
-                BarcoCarga barco = new BarcoCarga(
-                    rs.getString("matricula"),
-                    rs.getString("bandera"),
-                    rs.getString("nombre"),
-                    rs.getDouble("pesoEnToneladas"),
-                    rs.getDate("fechaBotadura").toLocalDate(),
-                    rs.getInt("numContenedores")
-                );
-
-                listaBCarga.add(barco);
+                lista.add(mapearBarcoCarga(rs));
             }
-
-        } catch (SQLException error) {
-            System.out.println("Error al consultar barcos de carga: "
-                    + error.getMessage());
-        }
-
-        return listaBCarga;
-    }
-    
-    @Override
-    public boolean editar(BarcoCarga barcoCarga) {
-        
-        String sql = "UPDATE BarcoCarga SET bandera = ?,"
-                + "nombre = ?, pesoEnToneladas = ?, fechaBotadura = ?, "
-                + "numContenedores = ? WHERE matricula = ?";
-        
-        try (Connection con = ConexionDB.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(sql)) {
-            
-            ps.setString(1, barcoCarga.getMatricula());
-            ps.setString(2, barcoCarga.getBandera());
-            ps.setString(3, barcoCarga.getNombre());
-            ps.setDouble(4, barcoCarga.getPesoTonelada());
-            ps.setDate(5, java.sql.Date.valueOf
-                      (barcoCarga.getFechaBotadura()));
-            ps.setInt(6, barcoCarga.getNumContenedores());
-            
-            return ps.executeUpdate() > 0;
-            
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el puerto: " 
-                    + e.getMessage());
-            return false;
-            
-        }  
-        
+            System.out.println("Error al consultar los barcos de carga: " + e.getMessage());
+        }
+        return lista;
     }
-    
+
     @Override
     public BarcoCarga buscarPorId(String matricula) {
-        
-        String sql = "SELECT matricula, bandera, nombre, pesoEnToneladas,"
-                + " fechaBotadura, numContenedores "
-                + "FROM BarcoCarga WHERE matricula = ?";
-        
+        String sql = "SELECT b.matricula, b.bandera, b.nombre, b.pesoTonelada, b.fechaBotadura, bc.numContenedores "
+                   + "FROM Barco b "
+                   + "INNER JOIN BarcoCarga bc ON b.matricula = bc.matricula_FK "
+                   + "WHERE b.matricula = ?";
+
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            
+
             ps.setString(1, matricula);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new BarcoCarga(
-                        rs.getString("matricula"),
-                        rs.getString("bandera"),
-                        rs.getString("nombre"),
-                        rs.getDouble("pesoEnToneladas"),
-                        rs.getDate("fechaBotadura").toLocalDate(),
-                        rs.getInt("numContenedores")
-                    );
+                    return mapearBarcoCarga(rs);
                 }
             }
-            
         } catch (SQLException e) {
-            System.out.println("Error al buscar el puerto: " + e.getMessage());
+            System.out.println("Error al buscar el barco de carga: " + e.getMessage());
         }
-        
         return null;
-        
+    }
+
+    @Override
+    public boolean editar(BarcoCarga barco) {
+        String sqlBarco = "UPDATE Barco "
+                + "SET bandera = ?, "
+                + "nombre = ?, "
+                + "pesoTonelada = ?, "
+                + "fechaBotadura = ? "
+                + "WHERE matricula = ?";
+        String sqlCarga = "UPDATE BarcoCarga "
+                + "SET numContenedores = ? "
+                + "WHERE matricula_FK = ?";
+
+        try (Connection con = ConexionDB.obtenerConexion()) {
+            con.setAutoCommit(false);
+            try (PreparedStatement psBarco = con.prepareStatement(sqlBarco);
+                 PreparedStatement psCarga = con.prepareStatement(sqlCarga)) {
+
+                psBarco.setString(1, barco.getBandera());
+                psBarco.setString(2, barco.getNombre());
+                psBarco.setDouble(3, barco.getPesoTonelada());
+                psBarco.setDate(4, Date.valueOf(barco.getFechaBotadura()));
+                psBarco.setString(5, barco.getMatricula());
+                int filasBarco = psBarco.executeUpdate();
+
+                psCarga.setInt(1, barco.getNumContenedores());
+                psCarga.setString(2, barco.getMatricula());
+                int filasCarga = psCarga.executeUpdate();
+
+                if (filasBarco > 0 && filasCarga > 0) {
+                    con.commit();
+                    return true;
+                }
+                con.rollback();
+                return false;
+            } catch (SQLException e) {
+                con.rollback();
+                System.out.println("Error al actualizar el barco de carga: " + e.getMessage());
+                return false;
+            } finally {
+                con.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error de conexión al actualizar el barco de carga: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public boolean eliminar(String matricula) {
-                
-        String sql = "DELETE FROM BarcoCarga WHERE matricula = ?";
-        
-        try (Connection con = ConexionDB.obtenerConexion();
-            PreparedStatement ps = con.prepareStatement(sql)) {
-            
-            ps.setString(1, matricula);
-            return ps.executeUpdate() > 0;
-            
-        } catch (SQLException e) {
-            if (e.getErrorCode() == 547) { 
-                System.out.println("Error. El barco "
-                        + "tiene registros asociados.");
-            } else {
-                System.out.println("Error al eliminar el barco: " 
-                        + e.getMessage());
+        String sqlCarga = "DELETE FROM BarcoCarga "
+                + "WHERE matricula_FK = ?";
+        String sqlBarco = "DELETE FROM Barco "
+                + "WHERE matricula = ?";
+
+        try (Connection con = ConexionDB.obtenerConexion()) {
+            con.setAutoCommit(false);
+            try (PreparedStatement psCarga = con.prepareStatement(sqlCarga);
+                 PreparedStatement psBarco = con.prepareStatement(sqlBarco)) {
+
+                psCarga.setString(1, matricula);
+                int filasCarga = psCarga.executeUpdate();
+
+                psBarco.setString(1, matricula);
+                int filasBarco = psBarco.executeUpdate();
+
+                if (filasCarga > 0 && filasBarco > 0) {
+                    con.commit();
+                    return true;
+                }
+                con.rollback();
+                return false;
+            } catch (SQLException e) {
+                con.rollback();
+                if (e.getErrorCode() == 547) {
+                    System.out.println("Error: No se puede eliminar el barco porque tiene atracos registrados");
+                } else {
+                    System.out.println("Error al eliminar el barco de carga: " + e.getMessage());
+                }
+                return false;
+            } finally {
+                con.setAutoCommit(true);
             }
+        } catch (SQLException e) {
+            System.out.println("Error de conexión al eliminar el barco de carga: " + e.getMessage());
             return false;
-            
+        }
+    }
+
+    private BarcoCarga mapearBarcoCarga(ResultSet rs) throws SQLException {
+        Date sqlFecha = rs.getDate("fechaBotadura");
+        LocalDate fechaBotadura;
+        if (sqlFecha != null){
+            fechaBotadura = sqlFecha.toLocalDate();
+        } else{
+            fechaBotadura = null;
         }
         
+        return new BarcoCarga(
+                rs.getString("matricula"),
+                rs.getString("bandera"),
+                rs.getString("nombre"),
+                rs.getDouble("pesoTonelada"),
+                fechaBotadura,
+                rs.getInt("numContenedores")
+        );
     }
-    
 }

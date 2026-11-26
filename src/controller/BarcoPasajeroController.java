@@ -5,7 +5,6 @@ import dao.CrudDAO;
 import java.time.LocalDate;
 import java.util.List;
 import model.BarcoPasajero;
-import model.Puerto;
 import utils.ConsolaUtils;
 
 /**

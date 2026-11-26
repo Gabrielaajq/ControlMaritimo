@@ -16,10 +16,10 @@ public final class ConsolaUtils {
     private static final Scanner leer = new Scanner (System.in);
     
     private static final DateTimeFormatter FORMATO_FECHA = 
-            DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT); 
+            DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT); 
     
     private static final DateTimeFormatter FORMATO_FECHA_HORA=
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").withResolverStyle(ResolverStyle.STRICT); 
+            DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm").withResolverStyle(ResolverStyle.STRICT); 
     
     private ConsolaUtils (){
     
@@ -129,7 +129,7 @@ public final class ConsolaUtils {
     }
     
     /**
-     * Solicita y valida una fecha con formato {@code dd/MM/yyyy}
+     * Solicita y valida una fecha con formato {@code dd/MM/uuuu}
      *
      * @param mensaje Texto indicativo que se muestra al usuario
      * @return Instancia {@link LocalDate} correspondiente 
@@ -137,7 +137,7 @@ public final class ConsolaUtils {
      */
     public static LocalDate leerFecha (String mensaje){
         while(true){
-            System.out.println(mensaje + "(dd/MM/yyyy): ");
+            System.out.println(mensaje + "(dd/MM/uuuu): ");
             String entrada= leer.nextLine().trim();
             try{
                 return LocalDate.parse (entrada, FORMATO_FECHA);
@@ -149,14 +149,14 @@ public final class ConsolaUtils {
     
     /**
      * Solicita y valida una fecha con hora
-     * en formato {@code dd/MM/yyyy HH:mm}
+     * en formato {@code dd/MM/uuuu HH:mm}
      *
      * @param mensaje Texto indicativo que se muestra al usuario
      * @return Instancia {@link LocalDateTime} correspondiente a la captura
      */
     public static LocalDateTime leerFechaHora (String mensaje){
         while (true){
-            System.out.println(mensaje+ " (dd/MM/yyyy HH:mm): ");
+            System.out.println(mensaje+ " (dd/MM/uuuu HH:mm): ");
             String entrada = leer.nextLine().trim();
             try{
                 return LocalDateTime.parse(entrada, FORMATO_FECHA_HORA);
@@ -250,7 +250,7 @@ public final class ConsolaUtils {
     }
     
     /**
-     * Permite capturar una fecha opcional en formato {@code dd/MM/yyyy}
+     * Permite capturar una fecha opcional en formato {@code dd/MM/uuuu}
      * durante la edición
      *
      * @param mensaje Texto indicativo que se muestra al usuario
@@ -258,7 +258,7 @@ public final class ConsolaUtils {
      */
     public static LocalDate leerFechaOpcional(String mensaje) {
         while(true) {
-            System.out.println(mensaje + "(dd/MM/yyyy o ENTER para mantener): ");
+            System.out.println(mensaje + "(dd/MM/uuuu o ENTER para mantener): ");
             String entrada = leer.nextLine().trim();
             if (entrada.isEmpty()) {
                 return null;
@@ -266,21 +266,21 @@ public final class ConsolaUtils {
             try {
                 return LocalDate.parse(entrada, FORMATO_FECHA);
             } catch (DateTimeParseException e) {
-                System.out.println("Fecha incorrecta. Usa el formato dd/MM/yyyy.");
+                System.out.println("Fecha incorrecta. Usa el formato dd/MM/uuuu");
             }
         }
     }
     
     /**
      * Permite capturar una fecha y hora opcional
-     * en formato {@code dd/MM/yyyy HH:mm}
+     * en formato {@code dd/MM/uuuu HH:mm}
      *
      * @param mensaje Texto indicativo que se muestra al usuario
      * @return La nueva {@link LocalDateTime}, o {@code null} si se presionó ENTER
      */
     public static LocalDateTime leerFechaHoraOpcional(String mensaje) {
         while (true) {
-            System.out.println(mensaje + "(dd/MM/yyyy HH:mm o ENTER para mantener): ");
+            System.out.println(mensaje + "(dd/MM/uuuu HH:mm o ENTER para mantener): ");
             String entrada = leer.nextLine().trim();
             if (entrada.isEmpty()) {
                 return null;
@@ -288,7 +288,7 @@ public final class ConsolaUtils {
             try {
                 return LocalDateTime.parse(entrada, FORMATO_FECHA_HORA);
             } catch (DateTimeParseException e) {
-                System.out.println("Fecha u hora incorrectas. Usa el formato dd/MM/yyyy HH:mm.");
+                System.out.println("Fecha u hora incorrectas. Usa el formato dd/MM/uuuu HH:mm.");
             }
         }
     }

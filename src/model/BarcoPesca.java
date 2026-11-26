@@ -10,10 +10,9 @@ public class BarcoPesca extends Barco{
     
     private Double cantidadToneladas;
 
-    public BarcoPesca(String nombre, 
-                      String matricula, String bandera, Double pesoTonelada,
-                      LocalDate fechaBotadura, Double cantidadToneladas) {
-        super(nombre, matricula, bandera, pesoTonelada, fechaBotadura);
+    public BarcoPesca(String matricula, String bandera, String nombre, Double pesoTonelada, 
+            LocalDate fechaBotadura, Double cantidadToneladas) {
+        super(matricula, bandera, nombre, pesoTonelada, fechaBotadura);
         this.cantidadToneladas = cantidadToneladas;
     }
 

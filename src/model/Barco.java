@@ -8,18 +8,18 @@ import java.time.LocalDate;
  */
 public abstract class Barco {
     
-  private String nombre;
-  private String matricula;
-  private String bandera;
-  private Double pesoTonelada;
-  private LocalDate fechaBotadura;
+    private String matricula;
+    private String bandera;
+    private String nombre;
+    private Double pesoTonelada;
+    private LocalDate fechaBotadura;
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
+    public Barco(String matricula, String bandera, String nombre, Double pesoTonelada, LocalDate fechaBotadura) {
+        this.matricula = matricula;
+        this.bandera = bandera;
         this.nombre = nombre;
+        this.pesoTonelada = pesoTonelada;
+        this.fechaBotadura = fechaBotadura;
     }
 
     public String getMatricula() {
@@ -38,6 +38,14 @@ public abstract class Barco {
         this.bandera = bandera;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Double getPesoTonelada() {
         return pesoTonelada;
     }
@@ -54,15 +62,8 @@ public abstract class Barco {
         this.fechaBotadura = fechaBotadura;
     }
 
-    public Barco(String nombre, String matricula, String bandera, 
-                 Double pesoTonelada, LocalDate fechaBotadura) {
-        this.nombre = nombre;
-        this.matricula = matricula;
-        this.bandera = bandera;
-        this.pesoTonelada = pesoTonelada;
-        this.fechaBotadura = fechaBotadura;
-    }
-  
+    
+    
     public abstract String  detalles();
     public abstract Double capacidadCarga();
     
