@@ -55,10 +55,10 @@ public class BarcoPasajeroController implements CrudController {
         String matricula = ConsolaUtils.leerTexto("Matricula (máx. 10 caracteres): ", 10).toUpperCase();
         String bandera = ConsolaUtils.leerTexto("Bandera: ", 20);
         String nombre = ConsolaUtils.leerTexto("Nombre del barco: ", 50);
-        Double pesoTonelada = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ");
+        Double pesoTonelada = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ", 1, 1000000);
         LocalDate fechaBotadura = ConsolaUtils.leerFecha("Fecha de Botadura ");
         Integer numPasajeros = ConsolaUtils.leerEntero("Capacidad máxima de Pasajeros: ");
-        Integer numPisos =  ConsolaUtils.leerEntero("Numero de Pisos del Barco: ");
+        Integer numPisos =  ConsolaUtils.leerEntero("Numero de Pisos del Barco: ", 1, 10000);
         String tipoViaje = ConsolaUtils.leerTexto("Tipo de Viaje: ", 15);
 
         try {
@@ -88,10 +88,10 @@ public class BarcoPasajeroController implements CrudController {
         
         for(BarcoPasajero bsPj : barcosPasajeros){
             
-            System.out.printf("Matricula: %s, Bandera: %s, Nombre: %s "
-                    + "Peso (En Toneladas): %s, Fecha de Botadura: %s "
+            System.out.printf("Matricula: %s, Bandera: %s, Nombre: %s, "
+                    + "Peso del Barco: %st, Fecha de Botadura: %s "
                     + "Capacidad Maxima de Pasajeros: %s, "
-                    + "Numero de Pisos del Barco: %s, Tipo de Viaje: %s",
+                    + "Numero de Pisos del Barco: %s, Tipo de Viaje: %s%n",
                     bsPj.getMatricula(),
                     bsPj.getBandera(),
                     bsPj.getNombre(),
@@ -149,12 +149,12 @@ public class BarcoPasajeroController implements CrudController {
         }
         
         Integer numPisosFinal = actual.getNumPisos();
-        Integer nuevoNumPisos = ConsolaUtils.leerEnteroOpcional("Nuevo numero de pisos del barco [" + actual.getNumPasajeros() + "]: ", 1, 10000);
+        Integer nuevoNumPisos = ConsolaUtils.leerEnteroOpcional("Nuevo numero de pisos del barco [" + actual.getNumPisos() + "]: ", 1, 10000);
         if (nuevoNumPisos != null) {
             numPisosFinal = nuevoNumPisos;
         }
         
-        String tipoViajeFinal = actual.getBandera();
+        String tipoViajeFinal = actual.getTipoViaje();
         String nuevoTipoViaje = ConsolaUtils.leerTextoOpcional("Nueva bandera [" + actual.getTipoViaje() + "]: ", 15);
         if (!nuevoTipoViaje.isEmpty()) {
             tipoViajeFinal = nuevoTipoViaje;

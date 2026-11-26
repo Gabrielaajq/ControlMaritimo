@@ -5,7 +5,6 @@ import dao.CrudDAO;
 import java.time.LocalDate;
 import java.util.List;
 import model.BarcoCarga;
-import model.BarcoPasajero;
 import utils.ConsolaUtils;
 
 /**
@@ -57,7 +56,7 @@ public class BarcoCargaController implements CrudController {
         String nombre = ConsolaUtils.leerTexto("Nombre del barco: ", 50);
         Double pesoTonelada = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ");
         LocalDate fechaBotadura = ConsolaUtils.leerFecha("Fecha de Botadura ");
-        Integer numContenedores = ConsolaUtils.leerEntero("Capacidad máxima de Contenedores: ");
+        Integer numContenedores = ConsolaUtils.leerEntero("Capacidad máxima de Contenedores: ", 1 , 10000);
 
         try {
             BarcoCarga barcoCarga = new BarcoCarga(matricula, bandera, 
@@ -85,9 +84,9 @@ public class BarcoCargaController implements CrudController {
         
         for(BarcoCarga bsCg : barcosCarga){
             
-            System.out.printf("Matricula: %s, Bandera: %s, Nombre: %s "
-                    + "Peso (En Toneladas): %s, Fecha de Botadura: %s "
-                    + "Capacidad Maxima de Contenedores: %s, ",
+            System.out.printf("Matricula: %s, Bandera: %s, Nombre: %s, "
+                    + "Peso del Barco: %st, Fecha de Botadura: %s, "
+                    + "Capacidad Maxima de Contenedores: %s%n",
                     bsCg.getMatricula(),
                     bsCg.getBandera(),
                     bsCg.getNombre(),
@@ -137,7 +136,7 @@ public class BarcoCargaController implements CrudController {
         }
 
         Integer numContenedoresFinal = actual.getNumContenedores();
-        Integer nuevoNumContenedores = ConsolaUtils.leerEnteroOpcional("Nueva capacidad de Contenedores Maximo del barco [" + actual.getNumContenedores() + "]: ", 1, 10000);
+        Integer nuevoNumContenedores = ConsolaUtils.leerEnteroOpcional("Nueva capacidad maxima de Contenedores del barco [" + actual.getNumContenedores() + "]: ", 1, 10000);
         if (nuevoNumContenedores != null) {
             numContenedoresFinal = nuevoNumContenedores;
         }
@@ -165,7 +164,7 @@ public class BarcoCargaController implements CrudController {
         try {
             if(confirmacion.equalsIgnoreCase("S")){
                 if(barcoCargaDao.eliminar(matricula)){
-                    System.out.println("Barcos de Carga eliminado correctamente.");
+                    System.out.println("Barco de Carga eliminado correctamente.");
                 }
             }
             

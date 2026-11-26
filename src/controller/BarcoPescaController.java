@@ -55,14 +55,14 @@ public class BarcoPescaController implements CrudController{
         String matricula = ConsolaUtils.leerTexto("Matricula (máx. 10 caracteres): ", 10).toUpperCase();
         String bandera = ConsolaUtils.leerTexto("Bandera: ", 20);
         String nombre = ConsolaUtils.leerTexto("Nombre del barco: ", 50);
-        Double pesoTonelada = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ");
+        Double pesoTonelada = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ", 1, 100000000);
         LocalDate fechaBotadura = ConsolaUtils.leerFecha("Fecha de Botadura ");
-        Double cantidadToneladas = ConsolaUtils.leerDecimal("Capacidad máxima de Contenedores: ");
+        Double cantidadToneladas = ConsolaUtils.leerDecimal("Capacidad máxima de carga de pescado (En Toneladas): ", 1, 10000);
 
         try {
-            BarcoPesca barcoCarga = new BarcoPesca(matricula, bandera, 
+            BarcoPesca barcoPesca = new BarcoPesca(matricula, bandera, 
                     nombre, pesoTonelada, fechaBotadura, cantidadToneladas);
-            if(barcoPescaDao.registrar(barcoCarga)){
+            if(barcoPescaDao.registrar(barcoPesca)){
                 System.out.println("Barco de Pesca registrado correctamente.");
             }
 
@@ -78,16 +78,16 @@ public class BarcoPescaController implements CrudController{
         List<BarcoPesca> barcosPesca = barcoPescaDao.consultarTodos();
 
         if(barcosPesca.isEmpty()){
-            System.out.println("No hay Barcos de Carga "
+            System.out.println("No hay Barcos de Pesca "
                     + "registrados en este momento.");
             return;
         }
 
         for(BarcoPesca bsPc : barcosPesca){
 
-            System.out.printf("Matricula: %s, Bandera: %s, Nombre: %s "
-                    + "Peso del Barco: %st, Fecha de Botadura: %s "
-                    + "Peso Maxima de Carga de Pescado: %st \n",
+            System.out.printf("Matricula: %s, Bandera: %s, Nombre: %s, "
+                    + "Peso del Barco: %st, Fecha de Botadura: %s, "
+                    + "Peso Maximo de Carga de Pescado: %st%n",
                     bsPc.getMatricula(),
                     bsPc.getBandera(),
                     bsPc.getNombre(),
@@ -101,11 +101,11 @@ public class BarcoPescaController implements CrudController{
     public void editar() {
         System.out.println("\n=== Editar Barco de Pesca ===");
 
-        String matricula = ConsolaUtils.leerTexto("Matricula del barco a editar: ", 10).toUpperCase();
+        String matricula = ConsolaUtils.leerTexto("Matricula del Barco a editar: ", 10).toUpperCase();
 
         BarcoPesca actual = barcoPescaDao.buscarPorId(matricula);
         if (actual == null) {
-            System.out.println("No se encontró níngún barco de carga con la matricula escrita " 
+            System.out.println("No se encontró níngún Barco de Pesca con la matricula escrita " 
             + matricula + " .");
             return;
         }
@@ -136,36 +136,36 @@ public class BarcoPescaController implements CrudController{
             fechaFinal = nuevaFecha;
         }
 
-        Double numCantidadToneladasFinal = actual.getCantidadToneladas();
-        Double nuevoCantidadToneladas = ConsolaUtils.leerDecimalOpcional("Nueva capacidad de Contenedores Maximo del barco [" + actual.getCantidadToneladas() + "]: ", 1, 10000);
+        Double cantidadToneladasFinal = actual.getCantidadToneladas();
+        Double nuevoCantidadToneladas = ConsolaUtils.leerDecimalOpcional("Nueva capacidad máxima de carga de pescado [" + actual.getCantidadToneladas() + "]: ", 1, 10000);
         if (nuevoCantidadToneladas != null) {
-            numCantidadToneladasFinal = nuevoCantidadToneladas;
+            cantidadToneladasFinal = nuevoCantidadToneladas;
         }
 
         try {
             BarcoPesca barcoPescaEditado = new BarcoPesca(matricula, 
                     banderaFinal, nombreFinal, pesoFinal, 
-                    fechaFinal, numCantidadToneladasFinal);
+                    fechaFinal, cantidadToneladasFinal);
             if(barcoPescaDao.editar(barcoPescaEditado)){
                 System.out.println("Barco actualizado correctamente.");
             }
 
         } catch (IllegalArgumentException e){
-            System.out.println("Error al realizar los cambios del barco de Carga: " + e.getMessage());
+            System.out.println("Error al realizar los cambios del barco de Pesca: " + e.getMessage());
         }
     }
 
     @Override
     public void eliminar() {
         System.out.println("\n=== Eliminar Barco de Carga ===");
-        String matricula = ConsolaUtils.leerTexto("Matricula del Barco de Carga a eliminar: ", 10).toUpperCase();
-        String confirmacion = ConsolaUtils.leerTexto("¿Confirmas eliminar el Barco de Carga " + matricula + "? (S/N): ", 1);
+        String matricula = ConsolaUtils.leerTexto("Matricula del Barco de Pesca a eliminar: ", 10).toUpperCase();
+        String confirmacion = ConsolaUtils.leerTexto("¿Confirmas eliminar el Barco de Pesca " + matricula + "? (S/N): ", 1);
 
 
         try {
             if(confirmacion.equalsIgnoreCase("S")){
                 if(barcoPescaDao.eliminar(matricula)){
-                    System.out.println("Barcos de Carga eliminado correctamente.");
+                    System.out.println("Barcos de Pesca eliminado correctamente.");
                 }
             }
 

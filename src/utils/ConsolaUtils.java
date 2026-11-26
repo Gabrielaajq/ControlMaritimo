@@ -98,7 +98,7 @@ public final class ConsolaUtils {
     public static double leerDecimal (String mensaje, double minimo, double maximo){
         while(true){
             double valor= leerDecimal(mensaje);
-            if( valor >= minimo && valor <=maximo){
+            if( valor >= minimo && valor <= maximo){
                 return valor; 
                 
             }
