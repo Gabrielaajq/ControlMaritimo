@@ -26,6 +26,20 @@ public class SistemaController {
                                =========================================
                                1. Iniciar sesión
                                2. Salir
+                               System.out.println(\"""
+                                            __________
+                                         (..         \\_    ,  |\\  /|
+                                         \\       O  \\  /|  \\ \\/ /
+                                          \\_______  \\/ |  \\  /
+                                            vvvv\\    \\ |   \\   |
+                                            \\^^^^  ==  \\_/   |
+                                              \\_   ===   \\.  |
+                                             / \\_\\   \\ /      |
+                                            |/   \\_  \\|      /
+                                         snd       \\________/
+                                       \""");
+                               
+                               
                                """);
             opcion = ConsolaUtils.leerEntero("Seleccione una opción: ", 1, 2);
             if (opcion == 1) {
