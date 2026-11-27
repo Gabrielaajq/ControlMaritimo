@@ -54,7 +54,7 @@ public class BarcoCargaController implements CrudController {
         String matricula = ConsolaUtils.leerTexto("Matricula (máx. 10 caracteres): ", 10).toUpperCase();
         String bandera = ConsolaUtils.leerTexto("Bandera: ", 20);
         String nombre = ConsolaUtils.leerTexto("Nombre del barco: ", 50);
-        Double pesoTonelada = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ");
+        Double pesoTonelada = ConsolaUtils.leerDecimal("Peso del Barco (En Toneladas): ", 1 , 100000);
         LocalDate fechaBotadura = ConsolaUtils.leerFecha("Fecha de Botadura ");
         Integer numContenedores = ConsolaUtils.leerEntero("Capacidad máxima de Contenedores: ", 1 , 10000);
 
